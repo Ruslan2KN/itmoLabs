@@ -6,14 +6,14 @@ package lab5.src.exceptions;
  * Является непроверяемым исключением (наследуется от RuntimeException), так как возникает
  * динамически в процессе обработки некорректного пользовательского ввода.
  */
-public class CommandNotFoundException extends RuntimeException{
+public class CommandNotFoundException extends RuntimeException {
 
     /**
      * Конструктор, создающий исключение с заданным сообщением об ошибке.
      *
      * @param message подробное описание ошибки или подсказка для пользователя (например, предложение ввести help)
      */
-    public CommandNotFoundException(String message){
+    public CommandNotFoundException(String message) {
         super(message);
     }
 }

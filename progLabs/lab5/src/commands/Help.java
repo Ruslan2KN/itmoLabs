@@ -6,7 +6,7 @@ import lab5.src.managers.CommandManager;
  * Команда для вывода справочной информации по всем доступным командам приложения.
  * Извлекает список всех зарегистрированных команд из менеджера и выводит их названия вместе с описаниями.
  */
-public class Help extends Command{
+public class Help extends Command {
     private final CommandManager commandManager;
 
     /**
@@ -15,9 +15,9 @@ public class Help extends Command{
      *
      * @param commandManager менеджер команд, из которого будет получен список всех доступных действий
      */
-    public Help (CommandManager commandManager){
+    public Help(CommandManager commandManager) {
         super("help", "вывести справку по допступным командам");
-        this.commandManager=commandManager;
+        this.commandManager = commandManager;
     }
 
     /**
@@ -29,12 +29,12 @@ public class Help extends Command{
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length >0 ){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Команда help не приминаем параметров.");
         }
         System.out.println("Доступные команды");
-        for (Command command : commandManager.getCommands().values()){
+        for (Command command : commandManager.getCommands().values()) {
             System.out.printf("%-38s : %s%n", command.getName(), command.getDescription());
         }
     }

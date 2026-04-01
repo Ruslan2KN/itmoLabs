@@ -1,6 +1,7 @@
 package lab5.src.managers;
 
 import java.util.HashMap;
+
 import lab5.src.commands.Command;
 import lab5.src.exceptions.CommandNotFoundException;
 
@@ -10,7 +11,7 @@ import lab5.src.exceptions.CommandNotFoundException;
  * конкретному объекту команды по ее строковому имени.
  */
 public class CommandManager {
-    private final HashMap<String, Command> commands= new HashMap<>();
+    private final HashMap<String, Command> commands = new HashMap<>();
 
     /**
      * Регистрирует новую команду в менеджере.
@@ -18,7 +19,7 @@ public class CommandManager {
      *
      * @param command объект команды, который необходимо зарегистрировать
      */
-    public void register(Command command){
+    public void register(Command command) {
         commands.put(command.getName(), command);
     }
 
@@ -37,13 +38,13 @@ public class CommandManager {
      * Имя команды автоматически приводится к нижнему регистру перед поиском.
      *
      * @param commandName имя вызываемой команды
-     * @param args массив строковых аргументов, передаваемых команде для выполнения
+     * @param args        массив строковых аргументов, передаваемых команде для выполнения
      * @throws CommandNotFoundException если команда с таким именем не найдена в словаре зарегистрированных команд
      */
-    public void exeCommand(String commandName, String[] args){
+    public void exeCommand(String commandName, String[] args) {
         Command command = commands.get(commandName.toLowerCase());
-        if (command == null){
-            throw new CommandNotFoundException("Комманда '"+commandName +"' не найдена. Введите help что бы посмотреть весь перечень комманд");
+        if (command == null) {
+            throw new CommandNotFoundException("Комманда '" + commandName + "' не найдена. Введите help что бы посмотреть весь перечень комманд");
         }
         command.execute(args);
 

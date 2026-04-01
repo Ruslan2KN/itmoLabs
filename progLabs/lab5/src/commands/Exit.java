@@ -10,7 +10,7 @@ public class Exit extends Command {
      * Конструктор, инициализирующий команду выхода.
      * Устанавливает имя команды "exit" и её описание для справки.
      */
-    public Exit(){
+    public Exit() {
         super("exit", "завершить программу без сохранения в файл");
     }
 
@@ -23,8 +23,8 @@ public class Exit extends Command {
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length > 0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Ошибка, exit не принимает параметров");
         }
 

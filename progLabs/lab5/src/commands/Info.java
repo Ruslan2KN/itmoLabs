@@ -6,7 +6,7 @@ import lab5.src.managers.CollectionManager;
  * Команда для вывода основной информации о коллекции.
  * Выводит тип коллекции, дату инициализации и текущее количество элементов.
  */
-public class Info extends Command{
+public class Info extends Command {
     private final CollectionManager collectionManager;
 
     /**
@@ -15,9 +15,9 @@ public class Info extends Command{
      *
      * @param collectionManager менеджер коллекции, из которого будут извлечены метаданные
      */
-    public Info(CollectionManager collectionManager){
-        super("info","информация о коллекции");
-        this.collectionManager=collectionManager;
+    public Info(CollectionManager collectionManager) {
+        super("info", "информация о коллекции");
+        this.collectionManager = collectionManager;
     }
 
     /**
@@ -28,8 +28,8 @@ public class Info extends Command{
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length > 0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Команда add не принимает параметров.");
         }
         collectionManager.info();

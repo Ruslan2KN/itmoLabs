@@ -24,7 +24,7 @@ public class ExecuteScript extends Command {
      * Хранит пути к файлам скриптов, которые выполняются в данный момент,
      * для обнаружения и предотвращения рекурсивных вызовов.
      */
-    private final HashSet<String> activePath= new HashSet<>();
+    private final HashSet<String> activePath = new HashSet<>();
 
     /**
      * Конструктор, инициализирующий команду выполнения скрипта.
@@ -33,10 +33,10 @@ public class ExecuteScript extends Command {
      * @param commandManager менеджер команд для делегирования выполнения считанных из файла команд
      * @param consoleInput   объект консольного ввода для временной подмены сканера на файловый
      */
-    public ExecuteScript (CommandManager commandManager, ConsoleInput consoleInput ){
-        super ( "execute_script", "считать и исполнить скрипт из указанного файла");
-        this.commandManager=commandManager;
-        this.consoleInput=consoleInput;
+    public ExecuteScript(CommandManager commandManager, ConsoleInput consoleInput) {
+        super("execute_script", "считать и исполнить скрипт из указанного файла");
+        this.commandManager = commandManager;
+        this.consoleInput = consoleInput;
     }
 
     /**
@@ -49,52 +49,52 @@ public class ExecuteScript extends Command {
      * @throws IllegalArgumentException если не передан путь к файлу, файл не найден/нет прав на чтение или обнаружена рекурсия
      */
     @Override
-    public void execute(String[] args)  {
-        if (args.length== 0){
-            throw new IllegalArgumentException("Комманда "+getName()+ " требует параметр - имя файла");
+    public void execute(String[] args) {
+        if (args.length == 0) {
+            throw new IllegalArgumentException("Комманда " + getName() + " требует параметр - имя файла");
         }
-        String filePath= args[0];
+        String filePath = args[0];
 
-        if (activePath.contains(filePath)){
-            throw new IllegalArgumentException("Этот файл уже был загружен, скрипт "+filePath+ " вызывает сам себя");
+        if (activePath.contains(filePath)) {
+            throw new IllegalArgumentException("Этот файл уже был загружен, скрипт " + filePath + " вызывает сам себя");
 
         }
-        File file= new File(filePath);
-        if (!file.exists() || !file.canRead()){
-            throw new IllegalArgumentException("Файл скрипта "+filePath+" не найден или недостаточно прав для чтения файла");
+        File file = new File(filePath);
+        if (!file.exists() || !file.canRead()) {
+            throw new IllegalArgumentException("Файл скрипта " + filePath + " не найден или недостаточно прав для чтения файла");
         }
         activePath.add(filePath);
-        System.out.println("Выполнение скрипта "+filePath);
+        System.out.println("Выполнение скрипта " + filePath);
 
-        Scanner oldScanner= consoleInput.getScanner();
+        Scanner oldScanner = consoleInput.getScanner();
 
-        try (Scanner scriptScanner = new Scanner(file)){
+        try (Scanner scriptScanner = new Scanner(file)) {
             consoleInput.setScanner(scriptScanner);
 
-            while (scriptScanner.hasNextLine()){
+            while (scriptScanner.hasNextLine()) {
                 String line = scriptScanner.nextLine().trim();
-                if (line.isEmpty()){
+                if (line.isEmpty()) {
                     continue;
                 }
                 String[] tokens = line.split("\\s+");
-                String commandName = tokens [0];
-                String[] commandsArgs= Arrays.copyOfRange(tokens,1, tokens.length);
+                String commandName = tokens[0];
+                String[] commandsArgs = Arrays.copyOfRange(tokens, 1, tokens.length);
 
                 try {
                     commandManager.exeCommand(commandName, commandsArgs);
-            } catch (IllegalArgumentException e){
+                } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
-                } catch (NoSuchElementException e){
+                } catch (NoSuchElementException e) {
                     System.out.println(e.getMessage());
                     break;
                 }
-        }
-    } catch (FileNotFoundException e){
-            System.out.println("Ошибка при чтение файла скрипта " +e.getMessage());
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("Ошибка при чтение файла скрипта " + e.getMessage());
         } finally {
             consoleInput.setScanner(oldScanner);
             activePath.remove(filePath);
-            System.out.println("Выполнение скрипта "+filePath+ " завершено");
+            System.out.println("Выполнение скрипта " + filePath + " завершено");
         }
     }
 }

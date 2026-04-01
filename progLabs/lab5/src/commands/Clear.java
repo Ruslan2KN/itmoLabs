@@ -15,9 +15,9 @@ public class Clear extends Command {
      *
      * @param collectionManager менеджер коллекции, над которым будет выполнена операция очистки
      */
-    public Clear(CollectionManager collectionManager){
-        super("clear","очищает коллекцию");
-        this.collectionManager=collectionManager;
+    public Clear(CollectionManager collectionManager) {
+        super("clear", "очищает коллекцию");
+        this.collectionManager = collectionManager;
     }
 
     /**
@@ -29,8 +29,8 @@ public class Clear extends Command {
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length > 0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Команда add не принимает параметров.");
         }
         collectionManager.clear();

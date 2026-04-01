@@ -1,4 +1,5 @@
 package lab5.src.models;
+
 import java.time.LocalDateTime;
 import java.lang.Object;
 import java.util.Objects;
@@ -69,16 +70,16 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
     /**
      * Статическое поле для генерации уникальных ID интерактивно.
      */
-    private static Long nextId=1L;
+    private static Long nextId = 1L;
 
     /**
      * Конструктор по умолчанию.
      * Автоматически генерирует уникальный id и устанавливает текущую дату создания.
      */
-    public StudyGroup(){
+    public StudyGroup() {
         super();
-        this.id=nextId++;
-        this.creationDate=LocalDateTime.now();
+        this.id = nextId++;
+        this.creationDate = LocalDateTime.now();
     }
 
     /**
@@ -93,15 +94,15 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @param groupAdmin          администратор группы
      * @param transferredStudents количество переведенных студентов
      */
-    public StudyGroup(String name, Coordinates coordinates, int studentsCount, Double averageMark, FormOfEducation formOfEducation, Person groupAdmin, int transferredStudents){
+    public StudyGroup(String name, Coordinates coordinates, int studentsCount, Double averageMark, FormOfEducation formOfEducation, Person groupAdmin, int transferredStudents) {
         setName(name);
         setCoordinates(coordinates);
         setStudentsCount(studentsCount);
         setAverageMark(averageMark);
-        this.formOfEducation=formOfEducation;
-        this.groupAdmin=groupAdmin;
-        this.id=nextId++;
-        this.creationDate=LocalDateTime.now();
+        this.formOfEducation = formOfEducation;
+        this.groupAdmin = groupAdmin;
+        this.id = nextId++;
+        this.creationDate = LocalDateTime.now();
         setTransferredStudents(transferredStudents);
 
     }
@@ -162,7 +163,7 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @throws IllegalArgumentException если балл меньше или равен 0
      */
     public void setAverageMark(Double averageMark) {
-        if (averageMark != null && averageMark <= 0){
+        if (averageMark != null && averageMark <= 0) {
             throw new IllegalArgumentException("Средний балл должен быть больше 0.");
         }
         this.averageMark = averageMark;
@@ -206,7 +207,7 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @throws IllegalArgumentException если количество меньше или равно 0
      */
     public void setStudentsCount(int studentsCount) {
-        if (studentsCount <=0 ) {
+        if (studentsCount <= 0) {
             throw new IllegalArgumentException("Количество студентов должно быть больше 0. ");
         }
         this.studentsCount = studentsCount;
@@ -219,7 +220,7 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @throws IllegalArgumentException если количество меньше или равно 0
      */
     public void setTransferredStudents(Integer transferredStudents) {
-        if (transferredStudents !=null && transferredStudents <=0 ){
+        if (transferredStudents != null && transferredStudents <= 0) {
             throw new IllegalArgumentException("Количество переведенных студентов должно быть больше 0.");
         }
         this.transferredStudents = transferredStudents;
@@ -230,7 +231,7 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      *
      * @param id новый ID
      */
-    public void setId(long id){
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -239,8 +240,8 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      *
      * @param creationDate новая дата создания
      */
-    public void setCreationDate(LocalDateTime creationDate){
-        this.creationDate=creationDate;
+    public void setCreationDate(LocalDateTime creationDate) {
+        this.creationDate = creationDate;
     }
 
     /**
@@ -249,9 +250,9 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      *
      * @param maxId максимальный ID, найденный в загруженном файле
      */
-    public static void updateNextId(long maxId){
-        if (maxId >= nextId){
-            nextId=maxId+1;
+    public static void updateNextId(long maxId) {
+        if (maxId >= nextId) {
+            nextId = maxId + 1;
         }
     }
 
@@ -262,34 +263,34 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @throws IllegalArgumentException при нарушении ограничений любого из полей
      */
     @Override
-    public void validate() throws IllegalArgumentException{
-        if (id <=0 ){
+    public void validate() throws IllegalArgumentException {
+        if (id <= 0) {
             throw new IllegalArgumentException("Поле StudyGroup, id должно быть больше 0");
         }
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Поле StudyGroup, name не может быть null или пустым. ");
         }
-        if (coordinates ==null){
+        if (coordinates == null) {
             throw new IllegalArgumentException("Поле StudyGroup, coordinates не может быть null. ");
         }
         coordinates.validate();
 
-        if (creationDate == null){
+        if (creationDate == null) {
             throw new IllegalArgumentException("Поле StudyGroup, creationDate не может быть null. ");
 
         }
-        if (studentsCount <= 0 ){
+        if (studentsCount <= 0) {
             throw new IllegalArgumentException("Поле StudyGroup, studentsCount не может быть меньше 1. ");
         }
-        if (transferredStudents!= null && transferredStudents <=0 ){
+        if (transferredStudents != null && transferredStudents <= 0) {
             throw new IllegalArgumentException("Поле StudyGroup, transferredStudents не может быть  меньше 1. ");
 
         }
-        if (averageMark != null && averageMark <=0){
+        if (averageMark != null && averageMark <= 0) {
             throw new IllegalArgumentException("Поле StudyGroup, averageMark не может быть  меньше 1. ");
 
         }
-        if (groupAdmin != null){
+        if (groupAdmin != null) {
             groupAdmin.validate();
         }
 
@@ -303,7 +304,7 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @return результат сравнения количеств студентов
      */
     @Override
-    public int compareTo(StudyGroup other){
+    public int compareTo(StudyGroup other) {
         if (other == null) return 1;
         return Integer.compare(this.studentsCount, other.studentsCount);
     }
@@ -316,10 +317,14 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @return true, если ID совпадают, иначе false
      */
     @Override
-    public boolean equals(Object o){
-        if (this == o ) { return true;}
-        if (o == null || getClass()!=o.getClass()) {return false;}
-        StudyGroup studyGroup= (StudyGroup) o;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        StudyGroup studyGroup = (StudyGroup) o;
         return Objects.equals(id, studyGroup.id);
     }
 
@@ -329,7 +334,7 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @return хэш-код
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(id);
     }
 
@@ -339,11 +344,11 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @return строка с перечислением значений всех полей
      */
     @Override
-    public String toString(){
-        return "StudyGroup [ id= " +id + ", name= " +name + ", coordinates= "+coordinates +
-                ", creationDate= "+creationDate+ ", studentsCount= "+ studentsCount+
-                 ", transferredStudents= "+ transferredStudents+", averageMark= "+averageMark+
-                ", formOfEducation= "+ formOfEducation+ ", groupAdmin=" +groupAdmin+ " ]";
+    public String toString() {
+        return "StudyGroup [ id= " + id + ", name= " + name + ", coordinates= " + coordinates +
+                ", creationDate= " + creationDate + ", studentsCount= " + studentsCount +
+                ", transferredStudents= " + transferredStudents + ", averageMark= " + averageMark +
+                ", formOfEducation= " + formOfEducation + ", groupAdmin=" + groupAdmin + " ]";
     }
 
 }

@@ -6,7 +6,7 @@ import lab5.src.managers.CollectionManager;
  * Команда для вывода всех элементов коллекции в порядке убывания.
  * Порядок определяется методом сравнения, реализованным в классе StudyGroup.
  */
-public class PrintDescending extends Command{
+public class PrintDescending extends Command {
     private final CollectionManager collectionManager;
 
     /**
@@ -15,9 +15,9 @@ public class PrintDescending extends Command{
      *
      * @param collectionManager менеджер коллекции, элементы которой необходимо отсортировать и вывести
      */
-    public PrintDescending(CollectionManager collectionManager){
+    public PrintDescending(CollectionManager collectionManager) {
         super("print_descending", "вывести элементы коллекции в порядке убывания");
-        this.collectionManager= collectionManager;
+        this.collectionManager = collectionManager;
     }
 
     /**
@@ -28,8 +28,8 @@ public class PrintDescending extends Command{
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length > 0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Ошибка, команда print_descending не принимает параметры");
         }
         collectionManager.printDescending();

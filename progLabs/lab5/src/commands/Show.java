@@ -6,7 +6,7 @@ import lab5.src.managers.CollectionManager;
  * Команда для вывода всех элементов коллекции в строковом представлении.
  * Поочередно отображает каждый объект, хранящийся в коллекции, используя его метод toString.
  */
-public class Show extends Command{
+public class Show extends Command {
     private final CollectionManager collectionManager;
 
     /**
@@ -15,9 +15,9 @@ public class Show extends Command{
      *
      * @param collectionManager менеджер коллекции, содержимое которой необходимо отобразить
      */
-    public Show(CollectionManager collectionManager){
-        super("show","выводит элементы коллекции");
-        this.collectionManager=collectionManager;
+    public Show(CollectionManager collectionManager) {
+        super("show", "выводит элементы коллекции");
+        this.collectionManager = collectionManager;
     }
 
     /**
@@ -28,8 +28,8 @@ public class Show extends Command{
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length > 0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Команда add не принимает параметров.");
         }
         System.out.println("Элементы коллекции: ");

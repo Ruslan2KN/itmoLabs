@@ -9,7 +9,7 @@ import lab5.src.models.StudyGroup;
  * Сравнение производится на основе логики, заложенной в методе compareTo класса StudyGroup.
  * Для определения эталонного значения пользователю предлагается интерактивно создать объект группы.
  */
-public class RemoveLower extends Command{
+public class RemoveLower extends Command {
     private final CollectionManager collectionManager;
     private final ConsoleInput consoleInput;
 
@@ -18,12 +18,12 @@ public class RemoveLower extends Command{
      * Устанавливает имя команды "remove_lower" и её описание.
      *
      * @param collectionManager менеджер коллекции, из которой будут удаляться элементы
-     * @param consoleInput   объект для интерактивного создания объекта-шаблона для сравнения
+     * @param consoleInput      объект для интерактивного создания объекта-шаблона для сравнения
      */
-    public RemoveLower(CollectionManager collectionManager, ConsoleInput consoleInput){
+    public RemoveLower(CollectionManager collectionManager, ConsoleInput consoleInput) {
         super("remove_lower", "удалить из коллекции все элементы, меньшие заданного");
-        this.collectionManager=collectionManager;
-        this.consoleInput=consoleInput;
+        this.collectionManager = collectionManager;
+        this.consoleInput = consoleInput;
     }
 
     /**
@@ -35,16 +35,16 @@ public class RemoveLower extends Command{
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length > 0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Ошибка, команда remove_lower не принемает параметров");
         }
         System.out.println("Создание элемента шаблона для сравнения");
 
-        StudyGroup groupToCompare= consoleInput.askStudyGroup();
+        StudyGroup groupToCompare = consoleInput.askStudyGroup();
         boolean isRemoved = collectionManager.removeLower(groupToCompare);
 
-        if (isRemoved){
+        if (isRemoved) {
             System.out.println("Элементы, меньше заданного удалены");
         } else {
             System.out.println("В коллекции не нашлось элементов, меньших заданного");

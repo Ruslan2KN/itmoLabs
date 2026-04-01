@@ -7,7 +7,7 @@ import lab5.src.managers.CollectionManager;
  * Порядок убывания обычно определяется алфавитным порядком имен администраторов или иным критерием,
  * реализованным в методе сравнения менеджера коллекции.
  */
-public class PrintFieldDescendingGroupAdmin extends Command{
+public class PrintFieldDescendingGroupAdmin extends Command {
     private final CollectionManager collectionManager;
 
     /**
@@ -16,9 +16,9 @@ public class PrintFieldDescendingGroupAdmin extends Command{
      *
      * @param collectionManager менеджер коллекции, из которого будут извлечены и отсортированы данные об администраторах
      */
-    public PrintFieldDescendingGroupAdmin(CollectionManager collectionManager){
+    public PrintFieldDescendingGroupAdmin(CollectionManager collectionManager) {
         super("print_field_descending_group_admin", "вывести элементы поля groupAdmin в порядке убывания");
-        this.collectionManager= collectionManager;
+        this.collectionManager = collectionManager;
     }
 
     /**
@@ -29,8 +29,8 @@ public class PrintFieldDescendingGroupAdmin extends Command{
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length > 0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Ошибка, команда print_field_descending_group_admin не принимает параметры");
         }
         collectionManager.printFieldDescendingGroupAdmin();

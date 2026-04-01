@@ -2,9 +2,9 @@ package lab5.src.models;
 
 /**
  * Хранит и управляет координатоми х, у
- *  Реализует интерфейс {@link Validator} для проверки корректности данных
+ * Реализует интерфейс {@link Validator} для проверки корректности данных
  */
-public class Coordinates implements Validator{
+public class Coordinates implements Validator {
 
     /**
      * Координата x
@@ -21,7 +21,7 @@ public class Coordinates implements Validator{
     /**
      * Конструктор по умолчанию.
      */
-    public Coordinates(){
+    public Coordinates() {
         super();
     }
 
@@ -31,33 +31,35 @@ public class Coordinates implements Validator{
      * @param x координата x
      * @param y координата y
      */
-    public Coordinates(Float x, Double y){
+    public Coordinates(Float x, Double y) {
         setX(x);
         setY(y);
     }
 
     /**
      * Устанавливает значение координаты x.
+     *
      * @param x новое значение координаты x
      * @throws NullPointerException если передано значение null
      */
-    public void setX(Float x){
-        if (x == null){
+    public void setX(Float x) {
+        if (x == null) {
             throw new NullPointerException("Х не может быть null.");
         }
-        this.x=x;
+        this.x = x;
     }
 
     /**
      * Устанавливает значение координаты y.
+     *
      * @param y новое значение координаты y
      * @throws IllegalArgumentException если передано значение null или оно превышает 689
      */
-    public void setY(Double y){
-        if (y == null || y >689){
+    public void setY(Double y) {
+        if (y == null || y > 689) {
             throw new IllegalArgumentException("Y не может быть null и максимальное значение только 689.");
         }
-        this.y=y;
+        this.y = y;
     }
 
     /**
@@ -85,10 +87,10 @@ public class Coordinates implements Validator{
      */
     @Override
     public void validate() throws IllegalArgumentException {
-        if (x== null){
+        if (x == null) {
             throw new IllegalArgumentException("Поле Coordinates, x не может быть null");
         }
-        if  (y ==null || y> 689){
+        if (y == null || y > 689) {
             throw new IllegalArgumentException("Поле Coordinates, y не может быть null и максимальное значение только 689");
         }
     }
@@ -99,10 +101,10 @@ public class Coordinates implements Validator{
      * @return строка в формате "[ x= ..., y=... ]"
      */
     @Override
-    public String toString(){
+    public String toString() {
         return "[" +
-                " x= "+x+
-                ", y=" +y +
+                " x= " + x +
+                ", y=" + y +
                 " ]";
     }
 

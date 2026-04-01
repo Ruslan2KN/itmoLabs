@@ -7,7 +7,7 @@ import lab5.src.managers.CollectionManager;
  * Поскольку в качестве коллекции используется очередь (ArrayDeque), команда удаляет
  * элемент, находящийся в самом начале (голову очереди).
  */
-public class RemoveFirst extends Command{
+public class RemoveFirst extends Command {
     private final CollectionManager collectionManager;
 
     /**
@@ -16,9 +16,9 @@ public class RemoveFirst extends Command{
      *
      * @param collectionManager менеджер коллекции, из которой будет удален первый элемент
      */
-    public RemoveFirst(CollectionManager collectionManager){
+    public RemoveFirst(CollectionManager collectionManager) {
         super("remove_first", "удалить первый элемент из коллекции");
-        this.collectionManager=collectionManager;
+        this.collectionManager = collectionManager;
     }
 
     /**
@@ -30,13 +30,13 @@ public class RemoveFirst extends Command{
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length >0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Ошибка, команда remove_first не принимает параметры");
         }
         boolean success = collectionManager.removeFirst();
 
-        if(success){
+        if (success) {
             System.out.println("Первый элемент удален из коллекции");
         } else {
             System.out.println("Коллекция пуста, удалять нечего");

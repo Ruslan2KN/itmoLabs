@@ -6,14 +6,14 @@ package lab5.src.exceptions;
  * Обычно используется в методах и командах, которым для корректной работы
  * обязательно наличие элементов в коллекции (например, вычисление максимума, удаление или специальная сортировка).
  */
-public class EmptyCollectionException extends RuntimeException{
+public class EmptyCollectionException extends RuntimeException {
 
     /**
      * Конструктор, создающий исключение с заданным сообщением об ошибке.
      *
      * @param message подробное описание причины ошибки или информационное сообщение для пользователя
      */
-    public EmptyCollectionException(String message){
+    public EmptyCollectionException(String message) {
         super(message);
     }
 }

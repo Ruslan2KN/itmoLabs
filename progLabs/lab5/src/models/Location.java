@@ -4,7 +4,7 @@ package lab5.src.models;
  * Класс, представляющий локацию (местоположение) с координатами и названием.
  * Реализует интерфейс {@link Validator} для проверки корректности данных.
  */
-public class Location implements Validator{
+public class Location implements Validator {
 
     /**
      * Координата X локации.
@@ -26,7 +26,7 @@ public class Location implements Validator{
     /**
      * Конструктор по умолчанию.
      */
-    public Location(){
+    public Location() {
         super();
     }
 
@@ -37,7 +37,7 @@ public class Location implements Validator{
      * @param y    координата Y (не может быть null)
      * @param name название локации (не может быть null или пустым)
      */
-    public Location( double x, Long y, String name){
+    public Location(double x, Long y, String name) {
         setX(x);
         setY(y);
         setName(name);
@@ -48,8 +48,8 @@ public class Location implements Validator{
      *
      * @param x новое значение координаты X
      */
-    public void setX(double x){
-        this.x=x;
+    public void setX(double x) {
+        this.x = x;
     }
 
     /**
@@ -58,11 +58,11 @@ public class Location implements Validator{
      * @param y новое значение координаты Y
      * @throws NullPointerException если передано значение null
      */
-    public void setY(Long y){
-        if (y== null){
+    public void setY(Long y) {
+        if (y == null) {
             throw new NullPointerException("Y не может быть null.");
         }
-        this.y=y;
+        this.y = y;
     }
 
     /**
@@ -72,10 +72,10 @@ public class Location implements Validator{
      * @throws IllegalArgumentException если строка равна null или состоит только из пробелов
      */
     public void setName(String name) {
-        if (name == null || name.trim().isEmpty()){
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Имя не может быть null или быть пустой строкой.");
         }
-        this.name=name;
+        this.name = name;
     }
 
 
@@ -96,14 +96,14 @@ public class Location implements Validator{
      * Проверяет валидность полей объекта в соответствии с требованиями ТЗ.
      *
      * @throws IllegalArgumentException если поле y равно null,
-     * либо поле name равно null или пустое
+     *                                  либо поле name равно null или пустое
      */
     @Override
     public void validate() throws IllegalArgumentException {
-        if (y== null){
+        if (y == null) {
             throw new IllegalArgumentException("Поле location, y не может быть null");
         }
-        if (name == null || name.trim().isEmpty()){
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Поле location, name не может быть null или пустым");
         }
 
@@ -115,11 +115,11 @@ public class Location implements Validator{
      * @return строка в формате "[ x= ..., y=..., name='...' ]"
      */
     @Override
-    public String toString(){
-        return " ["+
-                " x= "+x +
-                ", y= "+y+
-                ", name='"+name +"'"+
+    public String toString() {
+        return " [" +
+                " x= " + x +
+                ", y= " + y +
+                ", name='" + name + "'" +
                 " ]";
     }
 }

@@ -71,7 +71,9 @@ public class Person implements Validator {
      * @throws IllegalArgumentException если передано значение null
      */
     public void setEyeColor(Color eyeColor) {
-        if (eyeColor == null ) {throw new IllegalArgumentException("Цвет глаз не может быть null.");}
+        if (eyeColor == null) {
+            throw new IllegalArgumentException("Цвет глаз не может быть null.");
+        }
         this.eyeColor = eyeColor;
     }
 
@@ -82,7 +84,7 @@ public class Person implements Validator {
      * @throws IllegalArgumentException если переданный рост меньше или равен 0
      */
     public void setHeight(Double height) {
-        if (height !=null && height <=0 ){
+        if (height != null && height <= 0) {
             throw new IllegalArgumentException("Рост должен быть больше 0.");
         }
         this.height = height;
@@ -148,23 +150,23 @@ public class Person implements Validator {
      * Дополнительно вызывает валидацию для поля location, если оно не равно null.
      *
      * @throws IllegalArgumentException если имя null или пустое, рост null или {@code <=} 0,
-     * цвет глаз или национальность равны null
+     *                                  цвет глаз или национальность равны null
      */
     @Override
     public void validate() throws IllegalArgumentException {
-        if (name == null || name.trim().isEmpty()){
+        if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Поле Person, name не может быть null или пустым");
         }
-        if (height == null || height <=0){
+        if (height == null || height <= 0) {
             throw new IllegalArgumentException("Поле Person, height не может быть null или меньше 1");
         }
-        if (eyeColor== null){
+        if (eyeColor == null) {
             throw new IllegalArgumentException("Поле Person, eyeColor не может быть null");
         }
-        if (nationality== null){
+        if (nationality == null) {
             throw new IllegalArgumentException("Поле Person, nationality не может быть null");
         }
-        if (location!= null){
+        if (location != null) {
             location.validate();
         }
     }
@@ -176,10 +178,14 @@ public class Person implements Validator {
      * @return true, если объекты идентичны, иначе false
      */
     @Override
-    public boolean equals(Object o){
-        if (this==o) {return true;}
-        if (o == null || getClass()!= o.getClass()) {return false;}
-        Person person= (Person) o;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Person person = (Person) o;
         return Objects.equals(name, person.name) &&
                 Objects.equals(height, person.height) &&
                 Objects.equals(eyeColor, person.eyeColor) &&
@@ -193,7 +199,7 @@ public class Person implements Validator {
      * @return числовое значение хэш-кода, основанное на полях объекта
      */
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return Objects.hash(name, height, eyeColor, nationality, location);
     }
 
@@ -204,7 +210,7 @@ public class Person implements Validator {
      */
     @Override
     public String toString() {
-        return " [ name= "+name +", height= "+height+ ", eyeColor= "+
-                eyeColor + ", nationality= "+ nationality+ ", location= "+location+" ]";
+        return " [ name= " + name + ", height= " + height + ", eyeColor= " +
+                eyeColor + ", nationality= " + nationality + ", location= " + location + " ]";
     }
 }

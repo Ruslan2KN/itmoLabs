@@ -48,7 +48,7 @@ public class XMLReader {
             boolean isCoord = false;
             boolean isGroupAdmin = false;
             boolean isLocation = false;
-            boolean isCurrentGroupValid= true;
+            boolean isCurrentGroupValid = true;
 
             int lineNumber = 0;
 
@@ -63,19 +63,19 @@ public class XMLReader {
                 try {
                     if (line.equals("<studyGroup>")) {
                         currentGroup = new StudyGroup();
-                        isCurrentGroupValid=true;
+                        isCurrentGroupValid = true;
 
                     } else if (line.equals("</studyGroup>")) {
                         if (currentGroup != null) {
 
                             try {
                                 currentGroup.validate();
-                            } catch (IllegalArgumentException e){
+                            } catch (IllegalArgumentException e) {
                                 System.out.println(e.getMessage());
-                                isCurrentGroupValid=false;
+                                isCurrentGroupValid = false;
                             }
-                            if (isCurrentGroupValid){
-                            collection.add(currentGroup);
+                            if (isCurrentGroupValid) {
+                                collection.add(currentGroup);
                             } else {
                                 System.out.println("Группа пропущена из за ошибок в данных");
                             }
@@ -86,8 +86,9 @@ public class XMLReader {
                         currentCoord = new Coordinates();
                     } else if (line.equals("</coordinates>")) {
                         isCoord = false;
-                        if (currentGroup !=null){
-                        currentGroup.setCoordinates(currentCoord); }
+                        if (currentGroup != null) {
+                            currentGroup.setCoordinates(currentCoord);
+                        }
 
                     } else if (line.equals("<groupAdmin>")) {
                         isGroupAdmin = true;
@@ -95,8 +96,9 @@ public class XMLReader {
 
                     } else if (line.equals("</groupAdmin>")) {
                         isGroupAdmin = false;
-                        if (currentGroup !=null){
-                        currentGroup.setGroupAdmin(currentAdmin); }
+                        if (currentGroup != null) {
+                            currentGroup.setGroupAdmin(currentAdmin);
+                        }
 
                     } else if (line.equals("<location>")) {
                         isLocation = true;
@@ -104,10 +106,10 @@ public class XMLReader {
 
                     } else if (line.equals("</location>")) {
                         isLocation = false;
-                        if (currentAdmin !=null){
-                        currentAdmin.setLocation(currentLocation); }
-                    }
-                    else if (currentGroup!= null) {
+                        if (currentAdmin != null) {
+                            currentAdmin.setLocation(currentLocation);
+                        }
+                    } else if (currentGroup != null) {
 
                         if (line.startsWith("<id>")) {
                             currentGroup.setId(Long.parseLong(extractValue(line, "id")));
@@ -171,40 +173,39 @@ public class XMLReader {
                             }
 
                         }
-                    }
-                    else {
-                        if (line.startsWith("<")){
-                            System.out.println("Найден тег вне <studyGroup> "+ lineNumber);
-                            isCurrentGroupValid=false;
+                    } else {
+                        if (line.startsWith("<")) {
+                            System.out.println("Найден тег вне <studyGroup> " + lineNumber);
+                            isCurrentGroupValid = false;
                         }
                     }
 
 
-                } catch (Exception e){
-                    System.out.println("Ошибка парсинга в строке "+ lineNumber+ ": " + e.getMessage());
-                    isCurrentGroupValid=false;
+                } catch (Exception e) {
+                    System.out.println("Ошибка парсинга в строке " + lineNumber + ": " + e.getMessage());
+                    isCurrentGroupValid = false;
                 }
             }
         }
         return collection;
     }
 
-        /**
-         * Вспомогательный метод для извлечения текстового значения между открывающим и закрывающим тегами.
-         *
-         * @param line строка, содержащая XML-тег с данными
-         * @param tag  имя тега, значение которого необходимо извлечь
-         * @return строка со значением тега или пустая строка, если тег не найден или пуст
-         */
-        private String extractValue(String line, String tag){
-            String openTag= "<" + tag + ">";
-            String closeTag= "</" + tag + ">";
-            int startIndex = line.indexOf(openTag) + openTag.length();
-            int endIndex = line.indexOf(closeTag);
+    /**
+     * Вспомогательный метод для извлечения текстового значения между открывающим и закрывающим тегами.
+     *
+     * @param line строка, содержащая XML-тег с данными
+     * @param tag  имя тега, значение которого необходимо извлечь
+     * @return строка со значением тега или пустая строка, если тег не найден или пуст
+     */
+    private String extractValue(String line, String tag) {
+        String openTag = "<" + tag + ">";
+        String closeTag = "</" + tag + ">";
+        int startIndex = line.indexOf(openTag) + openTag.length();
+        int endIndex = line.indexOf(closeTag);
 
-            if (startIndex>= openTag.length() && endIndex> startIndex){
-                return line.substring(startIndex, endIndex);
+        if (startIndex >= openTag.length() && endIndex > startIndex) {
+            return line.substring(startIndex, endIndex);
         }
-            return "";
+        return "";
     }
 }

@@ -16,9 +16,9 @@ public abstract class Command {
      * @param name        строковое имя команды, по которому она будет вызываться из консоли
      * @param description краткое описание того, что делает команда (используется для команды help)
      */
-    public Command(String name, String description){
-        this.name=name;
-        this.description=description;
+    public Command(String name, String description) {
+        this.name = name;
+        this.description = description;
     }
 
     public String getName() {
@@ -39,7 +39,7 @@ public abstract class Command {
      * Должен быть обязательно переопределен во всех классах-наследниках.
      *
      * @param args массив строковых аргументов, переданных пользователем вместе с командой
-     * (может быть пустым, если команда не требует дополнительных параметров)
+     *             (может быть пустым, если команда не требует дополнительных параметров)
      */
     public abstract void execute(String[] args);
 }

@@ -8,7 +8,7 @@ import lab5.src.models.StudyGroup;
  * Команда для интерактивного добавления нового элемента (учебной группы) в коллекцию.
  * Взаимодействует с пользователем через консольный ввод для пошагового создания объекта.
  */
-public class Add extends Command{
+public class Add extends Command {
     private final CollectionManager collectionManager;
     private final ConsoleInput consoleInput;
 
@@ -17,12 +17,12 @@ public class Add extends Command{
      * Устанавливает имя команды "add" и её описание для справки.
      *
      * @param collectionManager менеджер коллекции, в который будет сохранен новый элемент
-     * @param consoleInput объект для считывания и валидации данных пользователя из консоли
+     * @param consoleInput      объект для считывания и валидации данных пользователя из консоли
      */
-    public Add(CollectionManager collectionManager, ConsoleInput consoleInput){
-        super("add","добавить элемент в коллекцию");
-        this.collectionManager=collectionManager;
-        this.consoleInput=consoleInput;
+    public Add(CollectionManager collectionManager, ConsoleInput consoleInput) {
+        super("add", "добавить элемент в коллекцию");
+        this.collectionManager = collectionManager;
+        this.consoleInput = consoleInput;
     }
 
     /**
@@ -34,13 +34,13 @@ public class Add extends Command{
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length > 0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Команда add не принимает параметров.");
         }
         System.out.println("Создание новой группы");
 
-        StudyGroup newGroup= consoleInput.askStudyGroup();
+        StudyGroup newGroup = consoleInput.askStudyGroup();
 
         collectionManager.add(newGroup);
 

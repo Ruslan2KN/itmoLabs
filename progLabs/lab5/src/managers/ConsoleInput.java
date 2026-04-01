@@ -20,8 +20,8 @@ public class ConsoleInput {
      *
      * @param scanner объект Scanner, настроенный на нужный поток ввода (например, System.in)
      */
-    public ConsoleInput(Scanner scanner){
-        this.scanner=scanner;
+    public ConsoleInput(Scanner scanner) {
+        this.scanner = scanner;
 
     }
 
@@ -30,7 +30,7 @@ public class ConsoleInput {
      *
      * @return полностью сформированный и валидный объект StudyGroup
      */
-    public StudyGroup askStudyGroup(){
+    public StudyGroup askStudyGroup() {
         StudyGroup group = new StudyGroup();
 
         askNameGroups(group);
@@ -40,8 +40,8 @@ public class ConsoleInput {
         askAvgMark(group);
         group.setFormOfEducation(askFormOfEducation());
         System.out.println("Введите данные админа группы или нажмите enter чтобы недобовлять админа.");
-        String adminInput=scanner.nextLine().trim();
-        if (adminInput.isEmpty()){
+        String adminInput = scanner.nextLine().trim();
+        if (adminInput.isEmpty()) {
             group.setGroupAdmin(null);
             System.out.println("Группа создана без админа");
         } else {
@@ -56,13 +56,13 @@ public class ConsoleInput {
      *
      * @param group группа, для которой задается имя
      */
-    private void askNameGroups(StudyGroup group){
-        while (true){
+    private void askNameGroups(StudyGroup group) {
+        while (true) {
             System.out.println(" Введите имя группы ");
             try {
                 group.setName(scanner.nextLine());
                 break;
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -73,21 +73,22 @@ public class ConsoleInput {
      *
      * @param group группа, для которой задается значение
      */
-    private void askTransferredStudents(StudyGroup group){
-        while (true){
+    private void askTransferredStudents(StudyGroup group) {
+        while (true) {
             System.out.println("Введите количество переведенных студентов");
 
-            String input= scanner.nextLine().trim();
-            if (input.isEmpty()){
-                group.setTransferredStudents(null); break;
+            String input = scanner.nextLine().trim();
+            if (input.isEmpty()) {
+                group.setTransferredStudents(null);
+                break;
             }
             try {
                 int count = Integer.parseInt(input);
                 group.setTransferredStudents(count);
                 break;
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(" Ошибка, введите целое число. ");
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -98,16 +99,16 @@ public class ConsoleInput {
      *
      * @param group группа, для которой задается значение
      */
-    private void askStudentsCount(StudyGroup group){
-        while (true){
+    private void askStudentsCount(StudyGroup group) {
+        while (true) {
             System.out.println("Введите количество студентов");
             try {
                 int count = Integer.parseInt(scanner.nextLine().trim());
                 group.setStudentsCount(count);
                 break;
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(" Ошибка, введите целое число. ");
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -118,11 +119,11 @@ public class ConsoleInput {
      *
      * @param group группа, для которой задается значение
      */
-    private void askAvgMark(StudyGroup group){
-        while (true){
+    private void askAvgMark(StudyGroup group) {
+        while (true) {
             System.out.println("Введите средний балл (дробное число) или пропустите ввод");
             String input = scanner.nextLine().trim();
-            if (input.isEmpty()){
+            if (input.isEmpty()) {
                 group.setAverageMark(null);
                 break;
             }
@@ -130,9 +131,9 @@ public class ConsoleInput {
                 Double avg = Double.parseDouble(input);
                 group.setAverageMark(avg);
                 break;
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(" Ошибка, введите дробное число. ");
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -144,27 +145,27 @@ public class ConsoleInput {
      *
      * @return сформированный объект Person
      */
-    private Person askPerson(){
+    private Person askPerson() {
         Person admin = new Person();
 
-        while(true){
+        while (true) {
             System.out.println(" Введите имя админа ");
             try {
                 admin.setName(scanner.nextLine());
                 break;
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
-        while (true){
+        while (true) {
             System.out.println("Введите рост админа, дробное число");
             try {
                 Double height = Double.parseDouble(scanner.nextLine().trim());
                 admin.setHeight(height);
                 break;
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println(" Ошибка, введите корректное число. ");
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -180,30 +181,30 @@ public class ConsoleInput {
      *
      * @return сформированный объект Coordinates
      */
-    private Coordinates askCoordinates(){
-        Coordinates coords= new Coordinates();
+    private Coordinates askCoordinates() {
+        Coordinates coords = new Coordinates();
 
-        while (true){
+        while (true) {
             System.out.println(" Введите координату X ");
             try {
-                Float x=Float.parseFloat(scanner.nextLine().trim());
+                Float x = Float.parseFloat(scanner.nextLine().trim());
                 coords.setX(x);
                 break;
-            } catch (NumberFormatException e ){
+            } catch (NumberFormatException e) {
                 System.out.println("Ошибка, введите корректное дробное число.");
-            } catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 System.out.println(e.getMessage());
             }
         }
-        while (true){
+        while (true) {
             System.out.println("Введите координату Y, максимум значение 689 ");
             try {
                 Double y = Double.parseDouble(scanner.nextLine().trim());
                 coords.setY(y);
                 break;
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("Ошибка, введите корректное число.");
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -215,12 +216,12 @@ public class ConsoleInput {
      *
      * @return выбранная форма обучения
      */
-    private FormOfEducation askFormOfEducation(){
-        while(true){
-            System.out.println("Выберите форму обучения: "+ Arrays.toString(FormOfEducation.values()));
+    private FormOfEducation askFormOfEducation() {
+        while (true) {
+            System.out.println("Выберите форму обучения: " + Arrays.toString(FormOfEducation.values()));
             try {
                 return FormOfEducation.valueOf(scanner.nextLine().trim().toUpperCase());
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println("Ошибка, такой формы обучения нет.");
             }
         }
@@ -231,12 +232,12 @@ public class ConsoleInput {
      *
      * @return выбранный цвет глаз
      */
-    private Color askEyeColor(){
-        while (true){
+    private Color askEyeColor() {
+        while (true) {
             System.out.println("Введите цвет глаз: " + Arrays.toString(Color.values()));
             try {
                 return Color.valueOf(scanner.nextLine().trim().toUpperCase());
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println("Ошибка, такого цвета нет.");
             }
         }
@@ -247,12 +248,12 @@ public class ConsoleInput {
      *
      * @return выбранная страна
      */
-    private Country askCountry(){
-        while (true){
-            System.out.println("Введите страну рождения: "+ Arrays.toString(Country.values()));
+    private Country askCountry() {
+        while (true) {
+            System.out.println("Введите страну рождения: " + Arrays.toString(Country.values()));
             try {
                 return Country.valueOf(scanner.nextLine().trim().toUpperCase());
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println("Ошибка, такой страны нет");
             }
         }
@@ -263,24 +264,24 @@ public class ConsoleInput {
      *
      * @return сформированный объект Location
      */
-    private Location askLocation(){
+    private Location askLocation() {
         System.out.println("Введите локацию");
-        Location location= new Location();
+        Location location = new Location();
 
-        while (true){
+        while (true) {
             System.out.println("Введите координату X для локации, дробное число");
-            String input= scanner.nextLine().trim();
+            String input = scanner.nextLine().trim();
             try {
-                double x =Double.parseDouble(input);
+                double x = Double.parseDouble(input);
                 location.setX(x);
                 break;
-            } catch (NumberFormatException e){
+            } catch (NumberFormatException e) {
                 System.out.println("Ошибка, введите корректное дробное число");
             }
         }
-        while (true){
+        while (true) {
             System.out.println("Введите координату Y для локации, целое число");
-            String input= scanner.nextLine().trim();
+            String input = scanner.nextLine().trim();
             try {
                 Long y = Long.parseLong(input);
                 location.setY(y);
@@ -289,23 +290,24 @@ public class ConsoleInput {
                 System.out.println("Ошибка, введите корректное целое число");
             }
         }
-        while (true){
+        while (true) {
             System.out.println("Введите имя локации");
-            String input= scanner.nextLine().trim();
+            String input = scanner.nextLine().trim();
             try {
                 location.setName(input);
                 break;
-            } catch (IllegalArgumentException e){
+            } catch (IllegalArgumentException e) {
                 System.out.println(e.getMessage());
             }
         }
         return location;
     }
 
-    public void setScanner(Scanner scanner){
-        this.scanner= scanner;
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
     }
-    public Scanner getScanner(){
+
+    public Scanner getScanner() {
         return scanner;
     }
 
@@ -315,10 +317,10 @@ public class ConsoleInput {
      *
      * @param group объект StudyGroup, данные которого необходимо обновить
      */
-    public void updateStudyGroup(StudyGroup group){
-        boolean isUpd= true;
+    public void updateStudyGroup(StudyGroup group) {
+        boolean isUpd = true;
 
-        while (isUpd){
+        while (isUpd) {
             System.out.println(" Выберите элемент который хотите обновить");
             System.out.println("1 - Имя (сейчас: " + group.getName() + ")");
             System.out.println("2 - Координаты");
@@ -332,17 +334,18 @@ public class ConsoleInput {
 
             String choice = scanner.nextLine().trim();
 
-            switch (choice){
-                case "1":{
+            switch (choice) {
+                case "1": {
                     askNameGroups(group);
                     System.out.println("Имя обновлено");
-                    break;}
-                case "2":{
+                    break;
+                }
+                case "2": {
                     group.setCoordinates(askCoordinates());
                     System.out.println("Координаты обновлены");
                     break;
                 }
-                case "3":{
+                case "3": {
                     askStudentsCount(group);
                     System.out.println("Количество студентов обновлено");
                     break;
@@ -352,24 +355,24 @@ public class ConsoleInput {
                     System.out.println("Количество переведенных студентов обновлено");
                     break;
                 }
-                case "5":{
+                case "5": {
                     askAvgMark(group);
                     System.out.println("Средний балл обновлен");
                     break;
                 }
-                case "6":{
+                case "6": {
                     group.setFormOfEducation(askFormOfEducation());
                     System.out.println("Форма обучения обновлена");
                     break;
                 }
-                case "7":{
+                case "7": {
                     System.out.println("Введите новые данные для админа");
                     group.setGroupAdmin(askPerson());
                     System.out.println("Данные админа обновлены");
                     break;
                 }
-                case "0":{
-                    isUpd=false;
+                case "0": {
+                    isUpd = false;
                     break;
                 }
                 default:

@@ -18,12 +18,12 @@ public class RemoveGreater extends Command {
      * Устанавливает имя команды "remove_greater" и её описание.
      *
      * @param collectionManager менеджер коллекции, из которой будут удаляться элементы
-     * @param consoleInput   объект для интерактивного создания объекта-шаблона для сравнения
+     * @param consoleInput      объект для интерактивного создания объекта-шаблона для сравнения
      */
-    public RemoveGreater(CollectionManager collectionManager, ConsoleInput consoleInput){
+    public RemoveGreater(CollectionManager collectionManager, ConsoleInput consoleInput) {
         super("remove_greater", "удалить из коллекции все элементы, превышающие заданный");
-        this.collectionManager=collectionManager;
-        this.consoleInput=consoleInput;
+        this.collectionManager = collectionManager;
+        this.consoleInput = consoleInput;
     }
 
     /**
@@ -35,16 +35,16 @@ public class RemoveGreater extends Command {
      * @throws IllegalArgumentException если команде переданы какие-либо дополнительные параметры
      */
     @Override
-    public void execute(String[] args){
-        if (args.length > 0){
+    public void execute(String[] args) {
+        if (args.length > 0) {
             throw new IllegalArgumentException("Ошибка, команда remove_greater не принемает параметров");
         }
         System.out.println("Создание элемента шаблона для сравнения");
 
-        StudyGroup groupToCompare= consoleInput.askStudyGroup();
+        StudyGroup groupToCompare = consoleInput.askStudyGroup();
         boolean isRemoved = collectionManager.removeGreater(groupToCompare);
 
-        if (isRemoved){
+        if (isRemoved) {
             System.out.println("Элементы, превышающие заданный удалены");
         } else {
             System.out.println("В коллекции не нашлось элементов, превышающих заданный");

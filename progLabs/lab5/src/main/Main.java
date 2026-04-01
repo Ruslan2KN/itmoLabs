@@ -14,7 +14,7 @@ public class Main {
      *
      * @param args аргументы командной строки (не используются в данной реализации)
      */
-    public static void main(String[] args){
+    public static void main(String[] args) {
         App app = new App();
         app.start();
     }
