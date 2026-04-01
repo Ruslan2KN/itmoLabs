@@ -1,5 +1,7 @@
 package lab5.src.commands;
 
+import lab5.src.exceptions.CommandNotFoundException;
+import lab5.src.exceptions.EmptyCollectionException;
 import lab5.src.managers.CommandManager;
 import lab5.src.managers.ConsoleInput;
 
@@ -13,16 +15,18 @@ import java.util.Scanner;
 /**
  * Команда для чтения и исполнения скрипта из указанного файла.
  * Скрипт содержит последовательность команд в том же формате, что и при интерактивном вводе в консоли.
- * Реализует защиту от бесконечной рекурсии (зацикливания), если скрипт пытается вызвать сам себя,
- * а также временно перенаправляет поток ввода программы на чтение из файла.
+ * * Особенности работы команды:
+ * - Включает специальный "режим скрипта" в ConsoleInput для строгой валидации без лишних консольных подсказок.
+ * - Реализует защиту от бесконечной рекурсии, предотвращая ситуации, когда скрипт вызывает сам себя.
+ * - Временно перенаправляет поток ввода программы на чтение из файла, гарантированно возвращая его обратно при любом исходе.
  */
 public class ExecuteScript extends Command {
     private final CommandManager commandManager;
     private final ConsoleInput consoleInput;
 
     /**
-     * Хранит пути к файлам скриптов, которые выполняются в данный момент,
-     * для обнаружения и предотвращения рекурсивных вызовов.
+     * Хранит пути к файлам скриптов, которые выполняются в данный момент.
+     * Используется для обнаружения и предотвращения рекурсивных вызовов.
      */
     private final HashSet<String> activePath = new HashSet<>();
 
@@ -31,7 +35,7 @@ public class ExecuteScript extends Command {
      * Устанавливает имя команды "execute_script" и её описание для справки.
      *
      * @param commandManager менеджер команд для делегирования выполнения считанных из файла команд
-     * @param consoleInput   объект консольного ввода для временной подмены сканера на файловый
+     * @param consoleInput   объект консольного ввода для временной подмены сканера и управления режимом скрипта
      */
     public ExecuteScript(CommandManager commandManager, ConsoleInput consoleInput) {
         super("execute_script", "считать и исполнить скрипт из указанного файла");
@@ -41,12 +45,16 @@ public class ExecuteScript extends Command {
 
     /**
      * Выполняет логику чтения и запуска скрипта.
-     * Проверяет наличие пути к файлу, валидность файла и отсутствие рекурсии.
-     * Временно заменяет системный сканер в ConsoleInput на сканер файла, поочередно считывает
-     * и исполняет команды, после чего гарантированно возвращает исходный сканер обратно в блоке finally.
+     * * Порядок выполнения:
+     * 1. Проверяет наличие аргумента, существование файла и права на чтение.
+     * 2. Проверяет отсутствие рекурсивного вызова.
+     * 3. Временно заменяет системный сканер в ConsoleInput на сканер файла и включает scriptMode.
+     * 4. Построчно считывает команды, разбивает их на имя и аргументы, и передает на исполнение.
+     * 5. Перехватывает ошибки выполнения отдельных команд, чтобы скрипт не прерывался целиком из-за одной опечатки.
+     * 6. В блоке finally гарантированно восстанавливает исходное состояние программы.
      *
-     * @param args массив строковых аргументов (ожидается ровно один аргумент — путь к файлу скрипта)
-     * @throws IllegalArgumentException если не передан путь к файлу, файл не найден/нет прав на чтение или обнаружена рекурсия
+     * @param args массив строковых аргументов (ожидается ровно один аргумент - путь к файлу скрипта)
+     * @throws IllegalArgumentException если не передан путь к файлу, файл не найден/недоступен или обнаружена рекурсия
      */
     @Override
     public void execute(String[] args) {
@@ -70,6 +78,7 @@ public class ExecuteScript extends Command {
 
         try (Scanner scriptScanner = new Scanner(file)) {
             consoleInput.setScanner(scriptScanner);
+            consoleInput.setScriptMode(true);
 
             while (scriptScanner.hasNextLine()) {
                 String line = scriptScanner.nextLine().trim();
@@ -82,6 +91,8 @@ public class ExecuteScript extends Command {
 
                 try {
                     commandManager.exeCommand(commandName, commandsArgs);
+                } catch (CommandNotFoundException | EmptyCollectionException e) {
+                    System.out.println("Ошибка в скрипте " + e.getMessage());
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
                 } catch (NoSuchElementException e) {
@@ -94,6 +105,7 @@ public class ExecuteScript extends Command {
         } finally {
             consoleInput.setScanner(oldScanner);
             activePath.remove(filePath);
+            consoleInput.setScriptMode(false);
             System.out.println("Выполнение скрипта " + filePath + " завершено");
         }
     }
