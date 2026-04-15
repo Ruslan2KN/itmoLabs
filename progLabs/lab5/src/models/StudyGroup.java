@@ -251,9 +251,10 @@ public class StudyGroup implements Comparable<StudyGroup>, Validator {
      * @param maxId максимальный ID, найденный в загруженном файле
      */
     public static void updateNextId(long maxId) {
-        if (maxId >= nextId) {
+        /*if (maxId >= nextId) {
             nextId = maxId + 1;
-        }
+        }*/
+        nextId=maxId +1;
     }
 
     /**

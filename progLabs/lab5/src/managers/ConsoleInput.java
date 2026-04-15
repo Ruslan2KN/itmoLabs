@@ -1,8 +1,11 @@
 package lab5.src.managers;
 
 import lab5.src.models.*;
+import lab5.src.models.Color;
 
+import java.awt.*;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 
 /**
@@ -45,21 +48,7 @@ public class ConsoleInput {
         askTransferredStudents(group);
         askAvgMark(group);
         group.setFormOfEducation(askFormOfEducation());
-        if (!scriptMode) {
-            System.out.println("Введите данные админа группы или нажмите enter чтобы не добавлять админа.");
-        }
-        String adminInput = scanner.nextLine().trim();
-        if (adminInput.isEmpty()) {
-            group.setGroupAdmin(null);
-            if (!scriptMode) {
-                System.out.println("Группа создана без админа");
-            }
-        } else {
-            group.setGroupAdmin(askPerson());
-            if (!scriptMode) {
-                System.out.println("Группа создана с админом");
-            }
-        }
+        group.setGroupAdmin(askPerson());
         return group;
     }
 
@@ -194,41 +183,58 @@ public class ConsoleInput {
     private Person askPerson() {
         Person admin = new Person();
 
-        while (true) {
+
+        if (!scriptMode) {
+            System.out.println("Хотите ли вы добавить админа группы? впишите любой символ, если хотите или  нажмите enter чтобы не добавлять админа.");
+        }
+        String adminInput = scanner.nextLine().trim();
+        if (adminInput.isEmpty()) {
+            admin=null;
             if (!scriptMode) {
-                System.out.println(" Введите имя админа ");
+                System.out.println("Группа создана без админа");
             }
-            try {
-                admin.setName(scanner.nextLine());
-                break;
-            } catch (IllegalArgumentException e) {
-                if (scriptMode) {
-                    throw new IllegalArgumentException("Ошибка скрипта имя админа должно быть string" + e.getMessage());
+        } else {
+
+
+            while (true) {
+                if (!scriptMode) {
+                    System.out.println(" Введите имя админа ");
                 }
-                System.out.println(e.getMessage());
+                try {
+                    admin.setName(scanner.nextLine());
+                    break;
+                } catch (IllegalArgumentException e) {
+                    if (scriptMode) {
+                        throw new IllegalArgumentException("Ошибка скрипта имя админа должно быть string" + e.getMessage());
+                    }
+                    System.out.println(e.getMessage());
+                }
             }
+            while (true) {
+                System.out.println("Введите рост админа, дробное число");
+                try {
+                    Double height = Double.parseDouble(scanner.nextLine().trim());
+                    admin.setHeight(height);
+                    break;
+                } catch (NumberFormatException e) {
+                    if (scriptMode) {
+                        throw new IllegalArgumentException("Ошибка скрипта, рост админа должен быть числом");
+                    }
+                    System.out.println(" Ошибка, введите корректное число. ");
+                } catch (IllegalArgumentException e) {
+                    if (scriptMode) {
+                        throw new IllegalArgumentException("Ошибка скрипта " + e.getMessage());
+                    }
+                    System.out.println(e.getMessage());
+                }
+            }
+            admin.setNationality(askCountry());
+            admin.setEyeColor(askEyeColor());
+            admin.setLocation(askLocation());
         }
-        while (true) {
-            System.out.println("Введите рост админа, дробное число");
-            try {
-                Double height = Double.parseDouble(scanner.nextLine().trim());
-                admin.setHeight(height);
-                break;
-            } catch (NumberFormatException e) {
-                if (scriptMode) {
-                    throw new IllegalArgumentException("Ошибка скрипта, рост админа должен быть числом");
-                }
-                System.out.println(" Ошибка, введите корректное число. ");
-            } catch (IllegalArgumentException e) {
-                if (scriptMode) {
-                    throw new IllegalArgumentException("Ошибка скрипта " + e.getMessage());
-                }
-                System.out.println(e.getMessage());
-            }
+        if (!scriptMode) {
+            System.out.println("Группа создана с админом");
         }
-        admin.setNationality(askCountry());
-        admin.setEyeColor(askEyeColor());
-        admin.setLocation(askLocation());
 
         return admin;
     }
@@ -442,6 +448,8 @@ public class ConsoleInput {
      * - 5 - Средний балл
      * - 6 - Форма обучения
      * - 7 - Админ группы
+     * - 8 - Все группу
+     * - 9 - Отменить все изменения
      * - 0 - Выход
      *
      * @param group объект StudyGroup, данные которого необходимо обновить
@@ -449,7 +457,7 @@ public class ConsoleInput {
      */
     public void updateStudyGroup(StudyGroup group) {
         boolean isUpd = true;
-
+        StudyGroup oldGroup=new StudyGroup(group.getName(), group.getCoordinates(), group.getStudentsCount(), group.getAverageMark(), group.getFormOfEducation(), group.getGroupAdmin(), group.getTransferredStudents());
         while (isUpd) {
             if (!scriptMode) {
                 System.out.println(" Выберите элемент который хотите обновить");
@@ -460,8 +468,10 @@ public class ConsoleInput {
                 System.out.println("5 - Средний балл (сейчас: " + group.getAverageMark() + ")");
                 System.out.println("6 - Форма обучения (сейчас: " + group.getFormOfEducation() + ")");
                 System.out.println("7 - Админ группы");
+                System.out.println("8 - Всю группу");
+                System.out.println("9 - Отменить все изменения");
                 System.out.println("0 - Сохранить изменения и выйти");
-                System.out.print(" Выберите поле для обновления 0-7: ");
+                System.out.print(" Выберите поле для обновления 0-9: ");
             }
             String choice = scanner.nextLine().trim();
 
@@ -499,9 +509,60 @@ public class ConsoleInput {
                 case "7": {
                     System.out.println("Введите новые данные для админа");
                     group.setGroupAdmin(askPerson());
-                    System.out.println("Данные админа обновлены");
+                    break;
+
+                }
+                case "8": {
+                    if (!scriptMode) {
+                        System.out.println("Введите новые данные для группы");
+                    }
+                    askNameGroups(group);
+                    group.setCoordinates(askCoordinates());
+                    askStudentsCount(group);
+                    askTransferredStudents(group);
+                    askAvgMark(group);
+                    group.setFormOfEducation(askFormOfEducation());
+                    group.setGroupAdmin(askPerson());
+                    if (!scriptMode){
+                        System.out.println("Данные группы были обновлены");
+                    }
                     break;
                 }
+                case "9": {
+                    if (!Objects.equals(group.getName(),(oldGroup.getName()))) {
+                        System.out.println("Название группы стало прежним");
+                        group.setName(oldGroup.getName());
+                    }
+                    if (group.getStudentsCount()!= oldGroup.getStudentsCount()){
+                        System.out.println("Количество студентов стало прежним");
+                        group.setStudentsCount(oldGroup.getStudentsCount());
+
+                    }
+                    if (!Objects.equals(group.getTransferredStudents(),(oldGroup.getTransferredStudents()))){
+                        System.out.println("Количество переведенных студентов стало прежним");
+                        group.setTransferredStudents(oldGroup.getTransferredStudents());
+                    }
+                    if (group.getCoordinates()!= oldGroup.getCoordinates()){
+                        System.out.println("Координаты стали прежними");
+                        group.setCoordinates(oldGroup.getCoordinates());
+
+                    }
+                    if (!Objects.equals(group.getAverageMark(),(oldGroup.getAverageMark()))){
+                        System.out.println("Средний балл группы стал прежним");
+                        group.setAverageMark(oldGroup.getAverageMark());
+                    }
+                    if (group.getFormOfEducation()!=oldGroup.getFormOfEducation()){
+                        System.out.println("Форма обучения стала прежней");
+                        group.setFormOfEducation(oldGroup.getFormOfEducation());
+                    }
+                    if (!Objects.equals(group.getGroupAdmin(),( oldGroup.getGroupAdmin()))){
+                        System.out.println("Админ группы, стал прежним");
+                        group.setGroupAdmin(oldGroup.getGroupAdmin());
+                    }
+                    System.out.println("Все данные группы стали прежними");
+                    break;
+
+                     }
                 case "0": {
                     isUpd = false;
                     break;
@@ -510,9 +571,10 @@ public class ConsoleInput {
                     if (scriptMode) {
                         throw new IllegalArgumentException("Ошибка скрипта неверный пункт меню обновления " + choice);
                     }
-                    System.out.println("Ошибка, неверный пункт. Введите цифру от 0 до 7");
+                    System.out.println("Ошибка, неверный пункт. Введите цифру от 0 до 9");
             }
         }
+        StudyGroup.updateNextId(oldGroup.getId()-1);
     }
 
     public void setScriptMode(Boolean scriptMode) {

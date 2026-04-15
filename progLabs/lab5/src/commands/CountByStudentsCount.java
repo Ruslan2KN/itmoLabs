@@ -17,7 +17,7 @@ public class CountByStudentsCount extends Command {
      * @param collectionManager менеджер коллекции, в котором будет производиться поиск и подсчет элементов
      */
     public CountByStudentsCount(CollectionManager collectionManager) {
-        super("count_by_students_count", " вывести количество элементов, значения поля studentsCount которое равно заданному числу");
+        super("count_by_students_count", "вывести количество элементов, значения поля studentsCount которое равно заданному числу");
         this.collectionManager = collectionManager;
     }
 
@@ -38,7 +38,7 @@ public class CountByStudentsCount extends Command {
             int count = Integer.parseInt(args[0]);
             long result = collectionManager.countByStudentsCount(count);
 
-            System.out.println("Найдено элементов с количеством студентов" + count + ": " + result);
+            System.out.println("Найдено элементов с количеством студентов " + count + ": " + result);
 
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Ошибка, количество студентов должно быть целым числом");

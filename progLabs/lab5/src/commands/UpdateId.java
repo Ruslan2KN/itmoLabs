@@ -49,7 +49,7 @@ public class UpdateId extends Command {
             consoleInput.updateStudyGroup(oldGroup);
             System.out.println(id + " элемент успешно обновлен");
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Ошибка, id должны быть цельым числом");
+            throw new IllegalArgumentException("Ошибка, id должны быть целым числом");
         }
     }
 }
