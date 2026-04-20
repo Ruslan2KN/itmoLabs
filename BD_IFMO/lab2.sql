@@ -41,16 +41,15 @@ HAVING count(stud."ЧЛВК_ИД")>10;
 -- пятый запрос
 WITH group_1101 as (SELECT avg(extract(YEAR FROM AGE(CURRENT_DATE, p."ДАТА_РОЖДЕНИЯ"))) avg_age
                FROM "Н_ЛЮДИ" p
-                JOIN "Н_ОБУЧЕНИЯ" e ON p."ИД"=e."ЧЛВК_ИД"
-                JOIN "Н_УЧЕНИКИ" s ON e."ЧЛВК_ИД" = s."ЧЛВК_ИД"
-                WHERE s."ГРУППА" = '1101'
+                JOIN "Н_УЧЕНИКИ" s ON p."ИД" = s."ЧЛВК_ИД"
+                WHERE s."ГРУППА" = '1101' AND s."ЧЛВК_ИД" IN (SELECT "ЧЛВК_ИД" FROM "Н_ОБУЧЕНИЯ")
 
 )
 
 SELECT stud."ГРУППА", avg(extract(YEAR FROM AGE(CURRENT_DATE, people."ДАТА_РОЖДЕНИЯ"))) "средний_возраст"
 FROM "Н_УЧЕНИКИ" stud
-JOIN "Н_ОБУЧЕНИЯ" educ ON stud."ЧЛВК_ИД"=educ."ЧЛВК_ИД"
-JOIN "Н_ЛЮДИ" people ON educ."ЧЛВК_ИД" = people."ИД"
+JOIN "Н_ЛЮДИ" people ON stud."ЧЛВК_ИД" = people."ИД"
+WHERE stud."ЧЛВК_ИД" IN (SELECT "ЧЛВК_ИД" FROM "Н_ОБУЧЕНИЯ")
 GROUP BY stud."ГРУППА"
 HAVING avg(extract(YEAR FROM AGE(CURRENT_DATE, people."ДАТА_РОЖДЕНИЯ")))
            < (SELECT avg_age FROM group_1101);
