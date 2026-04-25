@@ -16,7 +16,7 @@ public class Help extends Command {
      * @param commandManager менеджер команд, из которого будет получен список всех доступных действий
      */
     public Help(CommandManager commandManager) {
-        super("help", "вывести справку по допступным командам");
+        super(Commands.help, "вывести справку по допступным командам");
         this.commandManager = commandManager;
     }
 

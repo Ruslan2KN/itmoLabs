@@ -20,7 +20,7 @@ public class Save extends Command {
      * @param fileManager       менеджер файлов, отвечающий за физическую запись коллекции на диск
      */
     public Save(CollectionManager collectionManager, FileManager fileManager) {
-        super("save", "сохранить коллекцию в файл");
+        super(Commands.save, "сохранить коллекцию в файл");
         this.collectionManager = collectionManager;
         this.fileManager = fileManager;
     }

@@ -2,23 +2,30 @@ package lab5.src.managers;
 
 import lab5.src.models.*;
 
+import org.w3c.dom.*;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayDeque;
 import java.util.Scanner;
 
 /**
- * Класс для чтения и ручного парсинга XML-файла с данными коллекции учебных групп.
- * Чтение документа происходит построчно с использованием Scanner и отслеживанием текущего состояния (тегов).
+ * Класс для чтения XML-файла с данными коллекции учебных групп.
+ * Считывание файла происходит с использованием Scanner (по требованиям ТЗ),
+ * а десериализация структуры XML выполняется через встроенный DOM-парсер Java.
  */
 public class XMLReader {
 
     /**
      * Считывает коллекцию объектов StudyGroup из указанного XML-файла.
-     * Метод построчно анализирует файл, извлекая значения тегов и формируя объекты.
-     * Если данные конкретной группы содержат ошибки парсинга или не проходят валидацию,
-     * такая группа пропускается с выводом сообщения в консоль, а чтение файла продолжается.
+     * В случае, если отдельная группа содержит ошибки (неверный формат данных,
+     * отсутствие обязательных полей или провал валидации), она пропускается,
+     * а чтение остальных элементов продолжается.
      *
      * @param filePath путь к XML-файлу для чтения
      * @return коллекция ArrayDeque, содержащая успешно считанные и валидные объекты StudyGroup
@@ -37,175 +44,171 @@ public class XMLReader {
         }
 
         ArrayDeque<StudyGroup> collection = new ArrayDeque<>();
+        StringBuilder xmlContent = new StringBuilder();
 
         try (Scanner scanner = new Scanner(file)) {
-
-            StudyGroup currentGroup = null;
-            Coordinates currentCoord = null;
-            Person currentAdmin = null;
-            Location currentLocation = null;
-
-            boolean isCoord = false;
-            boolean isGroupAdmin = false;
-            boolean isLocation = false;
-            boolean isCurrentGroupValid = true;
-
-            int lineNumber = 0;
-
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine().trim();
-                lineNumber++;
-
-                if (line.isEmpty() || line.startsWith("<?xml") || line.equals("<studyGroups>") || line.equals("</studyGroups>")) {
-                    continue;
-                }
-
-                try {
-                    if (line.equals("<studyGroup>")) {
-                        currentGroup = new StudyGroup();
-                        isCurrentGroupValid = true;
-
-                    } else if (line.equals("</studyGroup>")) {
-                        if (currentGroup != null) {
-
-                            try {
-                                currentGroup.validate();
-                            } catch (IllegalArgumentException e) {
-                                System.out.println(e.getMessage());
-                                isCurrentGroupValid = false;
-                            }
-                            if (isCurrentGroupValid) {
-                                collection.add(currentGroup);
-                            } else {
-                                System.out.println("Группа пропущена из за ошибок в данных");
-                            }
-                            currentGroup = null;
-                        }
-                    } else if (line.equals("<coordinates>")) {
-                        isCoord = true;
-                        currentCoord = new Coordinates();
-                    } else if (line.equals("</coordinates>")) {
-                        isCoord = false;
-                        if (currentGroup != null) {
-                            currentGroup.setCoordinates(currentCoord);
-                        }
-
-                    } else if (line.equals("<groupAdmin>")) {
-                        isGroupAdmin = true;
-                        currentAdmin = new Person();
-
-                    } else if (line.equals("</groupAdmin>")) {
-                        isGroupAdmin = false;
-                        if (currentGroup != null) {
-                            currentGroup.setGroupAdmin(currentAdmin);
-                        }
-
-                    } else if (line.equals("<location>")) {
-                        isLocation = true;
-                        currentLocation = new Location();
-
-                    } else if (line.equals("</location>")) {
-                        isLocation = false;
-                        if (currentAdmin != null) {
-                            currentAdmin.setLocation(currentLocation);
-                        }
-                    } else if (currentGroup != null) {
-
-                        if (line.startsWith("<id>")) {
-                            currentGroup.setId(Long.parseLong(extractValue(line, "id")));
-
-
-                        } else if (line.startsWith("<name>")) {
-                            String nameValue = extractValue(line, "name");
-                            if (isLocation && currentLocation != null) {
-                                currentLocation.setName(nameValue);
-                            } else if (isGroupAdmin && currentAdmin != null) {
-                                currentAdmin.setName(nameValue);
-
-                            } else {
-                                currentGroup.setName(nameValue);
-                            }
-                        } else if (line.startsWith("<x>")) {
-                            String xValue = extractValue(line, "x");
-                            if (isLocation && currentLocation != null) {
-                                currentLocation.setX(Float.parseFloat(xValue));
-                            } else if (isCoord && currentCoord != null) {
-                                currentCoord.setX(Float.parseFloat(xValue));
-
-                            }
-                        } else if (line.startsWith("<y>")) {
-                            String yValue = extractValue(line, "y");
-
-                            if (isLocation && currentLocation != null) {
-                                currentLocation.setY(Long.parseLong(yValue));
-                            } else if (isCoord && currentCoord != null) {
-                                currentCoord.setY(Double.parseDouble(yValue));
-
-                            }
-                        } else if (line.startsWith("<creationDate>")) {
-                            currentGroup.setCreationDate(LocalDateTime.parse(extractValue(line, "creationDate")));
-
-                        } else if (line.startsWith("<studentsCount>")) {
-                            currentGroup.setStudentsCount(Integer.parseInt(extractValue(line, "studentsCount")));
-
-                        } else if (line.startsWith("<transferredStudents>")) {
-                            currentGroup.setTransferredStudents(Integer.parseInt(extractValue(line, "transferredStudents")));
-
-                        } else if (line.startsWith("<averageMark>")) {
-                            currentGroup.setAverageMark(Double.parseDouble(extractValue(line, "averageMark")));
-
-                        } else if (line.startsWith("<formOfEducation>")) {
-                            currentGroup.setFormOfEducation(FormOfEducation.valueOf(extractValue(line, "formOfEducation").toUpperCase()));
-
-                        } else if (line.startsWith("<height>")) {
-                            if (currentAdmin != null) {
-                                currentAdmin.setHeight(Double.parseDouble(extractValue(line, "height")));
-                            }
-
-                        } else if (line.startsWith("<eyeColor>")) {
-                            if (currentAdmin != null) {
-                                currentAdmin.setEyeColor(Color.valueOf(extractValue(line, "eyeColor").toUpperCase()));
-                            }
-
-                        } else if (line.startsWith("<nationality>")) {
-                            if (currentAdmin != null) {
-                                currentAdmin.setNationality(Country.valueOf(extractValue(line, "nationality").toUpperCase()));
-                            }
-
-                        }
-                    } else {
-                        if (line.startsWith("<")) {
-                            System.out.println("Найден тег вне <studyGroup> " + lineNumber);
-                            isCurrentGroupValid = false;
-                        }
-                    }
-
-
-                } catch (Exception e) {
-                    System.out.println("Ошибка парсинга в строке " + lineNumber + ": " + e.getMessage());
-                    isCurrentGroupValid = false;
-                }
+                xmlContent.append(scanner.nextLine()).append("\n");
             }
         }
+        if (xmlContent.toString().trim().isEmpty()) {
+            return collection;
+        }
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+
+            ByteArrayInputStream input = new ByteArrayInputStream(xmlContent.toString().getBytes(StandardCharsets.UTF_8));
+            Document doc = builder.parse(input);
+            doc.getDocumentElement().normalize();
+
+            NodeList groupNodes = doc.getElementsByTagName("studyGroup");
+
+            for (int i = 0; i < groupNodes.getLength(); i++) {
+                Node node = groupNodes.item(i);
+                if (node.getNodeType() == Node.ELEMENT_NODE) {
+                    try {
+                        collection.add(parseGroup((Element) node));
+                    } catch (Exception e) {
+                        System.out.println("Ошибка, группа пропущена " + e.getMessage());
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Ошибка XML " + e.getMessage());
+        }
         return collection;
+
     }
 
     /**
-     * Вспомогательный метод для извлечения текстового значения между открывающим и закрывающим тегами.
+     * Выполняет разбор отдельного XML-элемента (тега <studyGroup>) и собирает из него объект StudyGroup.
      *
-     * @param line строка, содержащая XML-тег с данными
-     * @param tag  имя тега, значение которого необходимо извлечь
-     * @return строка со значением тега или пустая строка, если тег не найден или пуст
+     * @param element корневой XML-элемент группы
+     * @return полностью сформированный и провалидированный объект StudyGroup
+     * @throws IllegalArgumentException если отсутствуют обязательные поля или данные не проходят валидацию
      */
-    private String extractValue(String line, String tag) {
-        String openTag = "<" + tag + ">";
-        String closeTag = "</" + tag + ">";
-        int startIndex = line.indexOf(openTag) + openTag.length();
-        int endIndex = line.indexOf(closeTag);
+    private StudyGroup parseGroup(Element element) {
+        StudyGroup group = new StudyGroup();
 
-        if (startIndex >= openTag.length() && endIndex > startIndex) {
-            return line.substring(startIndex, endIndex);
+        group.setId(Long.parseLong(getRequiredValue(element, "id")));
+        group.setName(getRequiredValue(element, "name"));
+        group.setCreationDate(LocalDateTime.parse(getRequiredValue(element, "creationDate")));
+        group.setStudentsCount(Integer.parseInt(getRequiredValue(element, "studentsCount")));
+
+        String transferredStr = getDirectChildValue(element, "transferredStudents");
+        if (transferredStr != null) {
+            group.setTransferredStudents(Integer.parseInt(transferredStr));
         }
-        return "";
+        String avgMarkStr = getDirectChildValue(element, "averageMark");
+        if (avgMarkStr != null) {
+            group.setAverageMark(Double.parseDouble(avgMarkStr));
+        }
+
+        String formStr = getDirectChildValue(element, "formOfEducation");
+        if (formStr != null) {
+            group.setFormOfEducation(FormOfEducation.valueOf(formStr.toUpperCase()));
+        }
+
+        Element coordinateEl = getRequiredElement(element, "coordinates");
+        Coordinates coordinates = new Coordinates();
+        coordinates.setX(Float.parseFloat(getRequiredValue(coordinateEl, "x")));
+        coordinates.setY(Double.parseDouble(getRequiredValue(coordinateEl, "y")));
+        group.setCoordinates(coordinates);
+
+        Element adminEl = getDirectChildElement(element, "groupAdmin");
+        if (adminEl != null) {
+            Person admin = new Person();
+            admin.setName(getRequiredValue(adminEl, "name"));
+            admin.setEyeColor(Color.valueOf(getRequiredValue(adminEl, "eyeColor").toUpperCase()));
+            admin.setNationality(Country.valueOf(getRequiredValue(adminEl, "nationality").toUpperCase()));
+
+            String height = getDirectChildValue(adminEl, "height");
+            if (height != null) admin.setHeight(Double.parseDouble(height));
+
+            Element locEl = getDirectChildElement(adminEl, "location");
+            if (locEl != null) {
+                Location location = new Location();
+                location.setX(Double.parseDouble(getRequiredValue(locEl, "x")));
+                location.setY(Long.parseLong(getRequiredValue(locEl, "y")));
+                location.setName(getRequiredValue(locEl, "name"));
+                admin.setLocation(location);
+            }
+            group.setGroupAdmin(admin);
+        }
+
+        group.validate();
+        return group;
     }
+
+    /**
+     * Вспомогательный метод для извлечения обязательного текстового значения из дочернего тега.
+     *
+     * @param parent родительский XML-элемент
+     * @param tag    имя искомого дочернего тега
+     * @return строковое значение тега
+     * @throws IllegalArgumentException если искомый тег отсутствует или пуст
+     */
+    private String getRequiredValue(Element parent, String tag) {
+        String val = getDirectChildValue(parent, tag);
+        if (val == null || val.isEmpty()) {
+            throw new IllegalArgumentException("Ошибка, отсутствует обязательное поле " + tag);
+        }
+        return val;
+    }
+
+    /**
+     * Вспомогательный метод для получения обязательного дочернего XML-элемента.
+     *
+     * @param parent родительский XML-элемент
+     * @param tag    имя искомого дочернего элемента
+     * @return найденный дочерний элемент
+     * @throws IllegalArgumentException если искомый элемент отсутствует
+     */
+    private Element getRequiredElement(Element parent, String tag) {
+        Element element = getDirectChildElement(parent, tag);
+        if (element == null) {
+            throw new IllegalArgumentException("Ошибка, отсутствует обязательный класс " + tag);
+        }
+        return element;
+    }
+
+    /**
+     * Ищет дочерний тег с указанным именем только на один уровень вложенности и возвращает его текст.
+     * Помогает избежать захвата одноименных тегов из глубоких вложений.
+     *
+     * @param parent  родительский XML-элемент
+     * @param tagName имя искомого тега
+     * @return строковое значение тега или null, если тег не найден
+     */
+    private String getDirectChildValue(Element parent, String tagName) {
+        NodeList children = parent.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node node = children.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals(tagName)) {
+                return node.getTextContent().trim();
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Ищет дочерний XML-элемент с указанным именем только на один уровень вложенности.
+     *
+     * @param parent  родительский XML-элемент
+     * @param tagName имя искомого тега
+     * @return объект Element или null, если элемент не найден
+     */
+    private Element getDirectChildElement(Element parent, String tagName) {
+        NodeList children = parent.getChildNodes();
+        for (int i = 0; i < children.getLength(); i++) {
+            Node node = children.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals(tagName)) {
+                return (Element) node;
+            }
+        }
+        return null;
+    }
+
+
 }

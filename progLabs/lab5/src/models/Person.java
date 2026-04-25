@@ -157,7 +157,7 @@ public class Person implements Validator {
         if (name == null || name.trim().isEmpty()) {
             throw new IllegalArgumentException("Поле Person, name не может быть null или пустым");
         }
-        if (height == null || height <= 0) {
+        if (height <= 0) {
             throw new IllegalArgumentException("Поле Person, height не может быть null или меньше 1");
         }
         if (eyeColor == null) {

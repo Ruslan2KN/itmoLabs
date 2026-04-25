@@ -16,7 +16,7 @@ public class PrintDescending extends Command {
      * @param collectionManager менеджер коллекции, элементы которой необходимо отсортировать и вывести
      */
     public PrintDescending(CollectionManager collectionManager) {
-        super("print_descending", "вывести элементы коллекции в порядке убывания");
+        super(Commands.print_descending, "вывести элементы коллекции в порядке убывания");
         this.collectionManager = collectionManager;
     }
 

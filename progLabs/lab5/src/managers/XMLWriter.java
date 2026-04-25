@@ -17,13 +17,12 @@ public class XMLWriter {
 
     /**
      * Записывает переданную коллекцию элементов в указанный XML-файл.
-     * Перед записью производит проверки на корректность пути, отсутствие директории с таким именем
-     * и наличие прав на запись.
+     * Перед записью производит проверки на наличие файла и прав доступа.
      *
-     * @param collection коллекция объектов {@link StudyGroup}, которую необходимо сохранить
-     * @param filePath   строковый путь к целевому файлу для сохранения
-     * @throws IOException           если возникает непредвиденная ошибка ввода-вывода при работе с файлом
-     * @throws FileNotFoundException если путь пустой, указывает на директорию или к файлу нет прав доступа на запись
+     * @param collection коллекция объектов StudyGroup, которую необходимо сохранить
+     * @param filePath   путь к целевому файлу
+     * @throws IOException           если возникает ошибка ввода-вывода
+     * @throws FileNotFoundException если путь пустой, является директорией или нет прав на запись
      */
     public void writeCollection(ArrayDeque<StudyGroup> collection, String filePath ) throws IOException {
         if (filePath == null || filePath.trim().isEmpty()) {
@@ -43,55 +42,86 @@ public class XMLWriter {
             writer.write("<studyGroups>\n");
 
             for (StudyGroup group : collection) {
-                writer.write("  <studyGroup>\n");
-                writer.write("    <id>" + group.getId() + "</id>\n");
-                writer.write("    <name>" + group.getName() + "</name>\n");
-
-                writer.write("    <coordinates>\n");
-                writer.write("    <x>" + group.getCoordinates().getX() + "</x>\n");
-                writer.write("    <y>" + group.getCoordinates().getY() + "</y>\n");
-                writer.write("    </coordinates>\n");
-
-                writer.write("    <creationDate>" + group.getCreationDate().toString() + "</creationDate>\n");
-                writer.write("    <studentsCount>" + group.getStudentsCount() + "</studentsCount>\n");
+                writer.write(getIndent(4)+"<studyGroup>\n");
+                writeTag(writer,8, "id", String.valueOf(group.getId()));
+                writeTag(writer, 8, "name", group.getName());
+                writeTag(writer, 8, "creationDate", group.getCreationDate().toString());
+                writeTag(writer, 8, "studentsCount", String.valueOf(group.getStudentsCount()));
 
                 if (group.getTransferredStudents() != null) {
-                    writer.write("    <transferredStudents>" + group.getTransferredStudents() + "</transferredStudents>\n");
-
+                    writeTag(writer, 8, "transferredStudents", String.valueOf(group.getTransferredStudents()));
                 }
                 if (group.getAverageMark() != null) {
-                    writer.write("    <averageMark>" + group.getAverageMark() + "</averageMark>\n");
+                    writeTag(writer,8, "averageMark", String.valueOf(group.getAverageMark()));
                 }
                 if (group.getFormOfEducation() != null) {
-                    writer.write("    <formOfEducation>" + group.getFormOfEducation().name() + "</formOfEducation>\n");
+                    writeTag(writer,  8, "formOfEducation", group.getFormOfEducation().name());
                 }
+
+                writer.write(getIndent(8)+"<coordinates>\n");
+                writeTag(writer, 12, "x", String.valueOf(group.getCoordinates().getX()));
+                writeTag(writer, 12, "y", String.valueOf(group.getCoordinates().getY()));
+                writer.write(getIndent(8)+"</coordinates>\n");
 
                 if (group.getGroupAdmin() != null) {
-                    writer.write("    <groupAdmin>\n");
-                    writer.write("       <name>" + group.getGroupAdmin().getName() + "</name>\n");
-                    writer.write("       <height>" + group.getGroupAdmin().getHeight() + "</height>\n");
+                    writer.write(getIndent(8) +"<groupAdmin>\n");
+                    writeTag(writer,12,"name", group.getGroupAdmin().getName());
+                    if (group.getGroupAdmin().getHeight()!=null) {
+                        writeTag(writer, 12, "height", String.valueOf(group.getGroupAdmin().getHeight()));
+                    }
 
-                    if (group.getGroupAdmin().getEyeColor() != null) {
-                        writer.write("       <eyeColor>" + group.getGroupAdmin().getEyeColor().name() + "</eyeColor>\n");
-                    }
-                    if (group.getGroupAdmin().getNationality() != null) {
-                        writer.write("       <nationality>" + group.getGroupAdmin().getNationality().name() + "</nationality>\n");
-                    }
+                    writeTag(writer, 12, "eyeColor", group.getGroupAdmin().getEyeColor().name());
+                    writeTag(writer,12,"nationality", group.getGroupAdmin().getNationality().name());
+
+
                     if (group.getGroupAdmin().getLocation() != null) {
-                        writer.write("       <location>\n");
-                        writer.write("          <x>" + group.getGroupAdmin().getLocation().getX() + "</x>\n");
-                        writer.write("          <y>" + group.getGroupAdmin().getLocation().getY() + "</y>\n");
-                        writer.write("          <name>" + group.getGroupAdmin().getLocation().getName() + "</name>\n");
-                        writer.write("       </location>\n");
-
-
+                        writer.write(getIndent(12)+ "<location>\n");
+                        writeTag(writer,16,"x", String.valueOf(group.getGroupAdmin().getLocation().getX()));
+                        writeTag(writer,16,"y", String.valueOf(group.getGroupAdmin().getLocation().getY()));
+                        writeTag(writer,16,"name", group.getGroupAdmin().getLocation().getName());
+                        writer.write(getIndent(12) +"</location>\n");
                     }
-                    writer.write("     </groupAdmin>\n");
+                    writer.write(getIndent(8)+"</groupAdmin>\n");
                 }
-                writer.write("  </studyGroup>\n");
+                writer.write(getIndent(4) + "</studyGroup>\n");
 
             }
             writer.write("</studyGroups>\n");
         }
     }
+
+    /**
+     * Вспомогательный метод для записи тега с отступами.
+     */
+    private void writeTag(BufferedWriter writer, int indent, String tagName, String value) throws IOException{
+        if (value == null) return;
+
+        writer.write(getIndent(indent));
+        writer.write("<" + tagName + ">");
+        writer.write(escapeXml(value));
+        writer.write("</" + tagName +">\n");
+
+    }
+
+    /**
+     * Вспомогательный метод для генерации отступов (пробелов).
+     * @param spaces количество пробелов
+     * @return строка, состоящая из нужного количества пробелов
+     */
+    private String getIndent(int spaces){
+        return " ".repeat(spaces);
+    }
+
+    /**
+     * Экранирует специальные символы XML.
+     */
+    private String escapeXml(String str){
+        if (str== null) return "";
+        return str.replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&apos;");
+    }
+
 }

@@ -38,7 +38,7 @@ public class ExecuteScript extends Command {
      * @param consoleInput   объект консольного ввода для временной подмены сканера и управления режимом скрипта
      */
     public ExecuteScript(CommandManager commandManager, ConsoleInput consoleInput) {
-        super("execute_script", "считать и исполнить скрипт из указанного файла");
+        super(Commands.execute_script, "считать и исполнить скрипт из указанного файла");
         this.commandManager = commandManager;
         this.consoleInput = consoleInput;
     }
@@ -59,7 +59,7 @@ public class ExecuteScript extends Command {
     @Override
     public void execute(String[] args) {
         if (args.length == 0) {
-            throw new IllegalArgumentException("Комманда " + getName() + " требует параметр - имя файла");
+            throw new IllegalArgumentException("Команда " + getName() + " требует параметр - имя файла");
         }
         String filePath = args[0];
 

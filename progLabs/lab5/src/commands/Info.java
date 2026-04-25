@@ -16,7 +16,7 @@ public class Info extends Command {
      * @param collectionManager менеджер коллекции, из которого будут извлечены метаданные
      */
     public Info(CollectionManager collectionManager) {
-        super("info", "информация о коллекции");
+        super(Commands.info, "информация о коллекции");
         this.collectionManager = collectionManager;
     }
 

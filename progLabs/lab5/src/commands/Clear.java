@@ -16,7 +16,7 @@ public class Clear extends Command {
      * @param collectionManager менеджер коллекции, над которым будет выполнена операция очистки
      */
     public Clear(CollectionManager collectionManager) {
-        super("clear", "очищает коллекцию");
+        super(Commands.clear, "очищает коллекцию");
         this.collectionManager = collectionManager;
     }
 

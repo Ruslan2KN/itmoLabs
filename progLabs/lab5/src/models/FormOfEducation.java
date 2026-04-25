@@ -6,5 +6,5 @@ package lab5.src.models;
 public enum FormOfEducation {
     DISTANCE_EDUCATION,
     FULL_TIME_EDUCATION,
-    EVENING_EDUCATION
+    EVENING_CLASSES
 }

@@ -61,7 +61,7 @@ public class ConsoleInput {
     private void askNameGroups(StudyGroup group) {
         while (true) {
             if (!scriptMode) {
-                System.out.println(" Введите имя группы ");
+                System.out.println(" Введите имя группы, имя группы не может быть пустым ");
             }
             try {
                 group.setName(scanner.nextLine());
@@ -84,7 +84,7 @@ public class ConsoleInput {
     private void askTransferredStudents(StudyGroup group) {
         while (true) {
             if (!scriptMode) {
-                System.out.println("Введите количество переведенных студентов");
+                System.out.println("Введите количество переведенных студентов, можно пропустить нажав enter");
             }
 
             String input = scanner.nextLine().trim();
@@ -119,7 +119,7 @@ public class ConsoleInput {
     private void askStudentsCount(StudyGroup group) {
         while (true) {
             if (!scriptMode) {
-                System.out.println("Введите количество студентов");
+                System.out.println("Введите количество студентов, целое число, не может быть пустым ");
             }
             try {
                 int count = Integer.parseInt(scanner.nextLine().trim());
@@ -198,7 +198,7 @@ public class ConsoleInput {
 
             while (true) {
                 if (!scriptMode) {
-                    System.out.println(" Введите имя админа ");
+                    System.out.println(" Введите имя админа, не может быть пустой строкой ");
                 }
                 try {
                     admin.setName(scanner.nextLine());
@@ -211,7 +211,7 @@ public class ConsoleInput {
                 }
             }
             while (true) {
-                System.out.println("Введите рост админа, дробное число");
+                System.out.println("Введите рост админа, дробное число, не может быть пустым");
                 try {
                     Double height = Double.parseDouble(scanner.nextLine().trim());
                     admin.setHeight(height);
@@ -250,7 +250,7 @@ public class ConsoleInput {
 
         while (true) {
             if (!scriptMode) {
-                System.out.println(" Введите координату X ");
+                System.out.println(" Введите координату X. дробное число, не может быть null ");
             }
             try {
                 Float x = Float.parseFloat(scanner.nextLine().trim());
@@ -270,7 +270,7 @@ public class ConsoleInput {
         }
         while (true) {
             if (!scriptMode) {
-                System.out.println("Введите координату Y, максимум значение 689 ");
+                System.out.println("Введите координату Y, максимум значение 689 и дробное число ");
             }
             try {
                 Double y = Double.parseDouble(scanner.nextLine().trim());
@@ -300,10 +300,12 @@ public class ConsoleInput {
     private FormOfEducation askFormOfEducation() {
         while (true) {
             if (!scriptMode) {
-                System.out.println("Выберите форму обучения: " + Arrays.toString(FormOfEducation.values()));
+                System.out.println("Выберите форму обучения: " + Arrays.toString(FormOfEducation.values()) + " или нажмите enter что бы пропустить выбор");
             }
+            String formOfEducation = scanner.nextLine().trim().toUpperCase();
+            if (formOfEducation.isEmpty()) return null;
             try {
-                return FormOfEducation.valueOf(scanner.nextLine().trim().toUpperCase());
+                return FormOfEducation.valueOf(formOfEducation);
             } catch (IllegalArgumentException e) {
                 if (scriptMode) {
                     throw new IllegalArgumentException("Ошибка скрипта выбрана неправильная форма обучения " + e.getMessage());
@@ -371,7 +373,7 @@ public class ConsoleInput {
 
         while (true) {
             if (!scriptMode) {
-                System.out.println("Введите координату X для локации, дробное число");
+                System.out.println("Введите координату X для локации, дробное число, не может быть пустым");
             }
             String input = scanner.nextLine().trim();
             try {
@@ -387,7 +389,7 @@ public class ConsoleInput {
         }
         while (true) {
             if (!scriptMode) {
-                System.out.println("Введите координату Y для локации, целое число");
+                System.out.println("Введите координату Y для локации, целое число, не может быть пустым");
             }
             String input = scanner.nextLine().trim();
             try {
@@ -403,7 +405,7 @@ public class ConsoleInput {
         }
         while (true) {
             if (!scriptMode) {
-                System.out.println("Введите имя локации");
+                System.out.println("Введите имя локации, не может быть пустой строкой");
             }
             String input = scanner.nextLine().trim();
             try {

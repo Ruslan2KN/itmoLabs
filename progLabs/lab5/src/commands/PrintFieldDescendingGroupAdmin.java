@@ -17,7 +17,7 @@ public class PrintFieldDescendingGroupAdmin extends Command {
      * @param collectionManager менеджер коллекции, из которого будут извлечены и отсортированы данные об администраторах
      */
     public PrintFieldDescendingGroupAdmin(CollectionManager collectionManager) {
-        super("print_field_descending_group_admin", "вывести элементы поля groupAdmin в порядке убывания");
+        super(Commands.print_field_descending_group_admin, "вывести элементы поля groupAdmin в порядке убывания");
         this.collectionManager = collectionManager;
     }
 

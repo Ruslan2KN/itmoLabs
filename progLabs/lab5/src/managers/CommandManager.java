@@ -44,7 +44,7 @@ public class CommandManager {
     public void exeCommand(String commandName, String[] args) {
         Command command = commands.get(commandName.toLowerCase());
         if (command == null) {
-            throw new CommandNotFoundException("Комманда '" + commandName + "' не найдена. Введите help что бы посмотреть весь перечень комманд");
+            throw new CommandNotFoundException("Команда '" + commandName + "' не найдена. Введите help что бы посмотреть весь перечень комманд");
         }
         command.execute(args);
 

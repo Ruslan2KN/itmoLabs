@@ -16,7 +16,7 @@ public class Show extends Command {
      * @param collectionManager менеджер коллекции, содержимое которой необходимо отобразить
      */
     public Show(CollectionManager collectionManager) {
-        super("show", "выводит элементы коллекции");
+        super(Commands.show, "выводит элементы коллекции");
         this.collectionManager = collectionManager;
     }
 

@@ -21,7 +21,7 @@ public class RemoveLower extends Command {
      * @param consoleInput      объект для интерактивного создания объекта-шаблона для сравнения
      */
     public RemoveLower(CollectionManager collectionManager, ConsoleInput consoleInput) {
-        super("remove_lower", "удалить из коллекции все элементы, меньшие заданного");
+        super(Commands.remove_lower, "удалить из коллекции все элементы, меньшие заданного");
         this.collectionManager = collectionManager;
         this.consoleInput = consoleInput;
     }

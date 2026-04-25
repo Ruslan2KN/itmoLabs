@@ -17,7 +17,7 @@ public class CountByStudentsCount extends Command {
      * @param collectionManager менеджер коллекции, в котором будет производиться поиск и подсчет элементов
      */
     public CountByStudentsCount(CollectionManager collectionManager) {
-        super("count_by_students_count", "вывести количество элементов, значения поля studentsCount которое равно заданному числу");
+        super(Commands.count_by_students_count, "вывести количество элементов, значения поля studentsCount которое равно заданному числу");
         this.collectionManager = collectionManager;
     }
 

@@ -20,7 +20,7 @@ public class UpdateId extends Command {
      * @param consoleInput      объект для интерактивного взаимодействия с пользователем при обновлении данных
      */
     public UpdateId(CollectionManager collectionManager, ConsoleInput consoleInput) {
-        super("update_id", "обновить значение элемента коллекции, по его id");
+        super(Commands.update_id, "обновить значение элемента коллекции, по его id");
         this.collectionManager = collectionManager;
         this.consoleInput = consoleInput;
     }

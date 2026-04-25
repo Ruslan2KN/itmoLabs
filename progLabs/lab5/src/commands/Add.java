@@ -20,7 +20,7 @@ public class Add extends Command {
      * @param consoleInput      объект для считывания и валидации данных пользователя из консоли
      */
     public Add(CollectionManager collectionManager, ConsoleInput consoleInput) {
-        super("add", "добавить элемент в коллекцию");
+        super(Commands.add, "добавить элемент в коллекцию");
         this.collectionManager = collectionManager;
         this.consoleInput = consoleInput;
     }

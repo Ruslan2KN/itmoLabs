@@ -7,7 +7,7 @@ package lab5.src.commands;
  * Служит основой для реализации паттерна проектирования Command.
  */
 public abstract class Command {
-    private final String name;
+    private final Commands name;
     private final String description;
 
     /**
@@ -16,13 +16,13 @@ public abstract class Command {
      * @param name        строковое имя команды, по которому она будет вызываться из консоли
      * @param description краткое описание того, что делает команда (используется для команды help)
      */
-    public Command(String name, String description) {
+    public Command(Commands name, String description) {
         this.name = name;
         this.description = description;
     }
 
     public String getName() {
-        return name;
+        return name.name();
     }
 
     /**

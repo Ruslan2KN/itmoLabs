@@ -21,7 +21,7 @@ public class RemoveGreater extends Command {
      * @param consoleInput      объект для интерактивного создания объекта-шаблона для сравнения
      */
     public RemoveGreater(CollectionManager collectionManager, ConsoleInput consoleInput) {
-        super("remove_greater", "удалить из коллекции все элементы, превышающие заданный");
+        super(Commands.remove_greater, "удалить из коллекции все элементы, превышающие заданный");
         this.collectionManager = collectionManager;
         this.consoleInput = consoleInput;
     }

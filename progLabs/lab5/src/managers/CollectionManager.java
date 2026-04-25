@@ -15,7 +15,7 @@ import java.util.Objects;
  */
 public class CollectionManager {
     private ArrayDeque<StudyGroup> collection = new ArrayDeque<>();
-    private LocalDateTime initializationDate = LocalDateTime.now();
+    private final LocalDateTime initializationDate = LocalDateTime.now();
 
 
     /**
@@ -65,7 +65,7 @@ public class CollectionManager {
      */
     public void info() {
         System.out.println("Тип коллекции: " + collection.getClass().getSimpleName());
-        System.out.println("Даты иницилизации коллекции: " + initializationDate);
+        System.out.println("Даты инициализации коллекции: " + initializationDate);
         System.out.println("Количество элементов в коллекции: " + collection.size());
     }
 
@@ -184,7 +184,7 @@ public class CollectionManager {
         collection.stream()
                 .map(StudyGroup::getGroupAdmin)
                 .filter(Objects::nonNull)
-                .sorted((admin1, admin2) -> admin2.getName().compareTo(admin1.getName()))
+                .sorted((admin1, admin2) -> admin2.getName().compareToIgnoreCase(admin1.getName()))
                 .forEach(System.out::println);
     }
 
