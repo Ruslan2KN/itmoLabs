@@ -1,0 +1,8 @@
+src.client
+src.client.commands
+src.exceptions
+src.managers
+src.models
+src.network
+src.server
+src.server.commands
