@@ -1,7 +1,0 @@
-ClientMain.class
-commands/ClientCommands.class
-commands/ClientCommand.class
-commands/Exit.class
-commands/ExecuteScript.class
-client/Client.class
-client/ClientApp.class

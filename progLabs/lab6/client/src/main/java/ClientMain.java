@@ -28,7 +28,8 @@ public class ClientMain {
 
         Properties appProps = new Properties();
         System.out.println("Чтение настроек client.properties");
-        try {appProps.load(new FileInputStream("properties/client.properties"));
+        try (FileInputStream fis = new FileInputStream("properties/client.properties")) {
+            appProps.load(fis);
             host = appProps.getProperty("host","localhost");
             String portString = appProps.getProperty("port", "8080");
             port = Integer.parseInt(portString);

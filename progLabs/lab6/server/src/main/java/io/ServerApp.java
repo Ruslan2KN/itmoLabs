@@ -29,7 +29,8 @@ public class ServerApp {
         int port = 8080;
         Properties appProps = new Properties();
         System.out.println("Чтение настроек server.properties");
-        try {appProps.load(new FileInputStream("properties/server.properties"));
+        try (FileInputStream fis =new FileInputStream("properties/server.properties") ) {
+            appProps.load(fis);
         String portString = appProps.getProperty("port", "8080");
         port = Integer.parseInt(portString);
         } catch (IOException e){
