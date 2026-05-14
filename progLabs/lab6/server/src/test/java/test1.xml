@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<studyGroups>
+    <studyGroup>
+        <id>1</id>
+        <name>gdfgd</name>
+        <creationDate>2026-05-11T15:02:01.345897</creationDate>
+        <studentsCount>2</studentsCount>
+        <coordinates>
+            <x>43.0</x>
+            <y>2.0</y>
+        </coordinates>
+    </studyGroup>
+    <studyGroup>
+        <id>3</id>
+        <name>werw</name>
+        <creationDate>2026-05-11T15:03:50.850453</creationDate>
+        <studentsCount>3</studentsCount>
+        <coordinates>
+            <x>423.0</x>
+            <y>2.0</y>
+        </coordinates>
+    </studyGroup>
+    <studyGroup>
+        <id>4</id>
+        <name>fsdfs</name>
+        <creationDate>2026-05-11T15:04:29.453326</creationDate>
+        <studentsCount>32</studentsCount>
+        <coordinates>
+            <x>32.0</x>
+            <y>2.0</y>
+        </coordinates>
+    </studyGroup>
+    <studyGroup>
+        <id>5</id>
+        <name>gdfgd</name>
+        <creationDate>2026-05-11T15:04:56.346346</creationDate>
+        <studentsCount>3</studentsCount>
+        <coordinates>
+            <x>543.0</x>
+            <y>343.0</y>
+        </coordinates>
+    </studyGroup>
+</studyGroups>
