@@ -1,0 +1,23 @@
+add
+dsfds
+123
+22
+33
+22
+44
+FULL_TIME_EDUCATION
+yes
+Igor
+432
+FRANCE
+BLACK
+4234
+321
+fdsfds
+
+
+info
+show
+execute_script /Users/rusik2k/IdeaProjects/ifmo/lab6/server/src/test/java/test_script.txt
+execute_script show
+show
