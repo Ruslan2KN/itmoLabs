@@ -49,7 +49,8 @@ public class ClientApp {
      * Запрашивает логин и пароль у пользователя.
      */
     private void authenticate() {
-        while (true) {
+        boolean isAuthentiated = false;
+        while (!isAuthentiated) {
             System.out.print("Введите логин (или 'регистрация' для нового пользователя, сервер сам создаст аккаунт): ");
             username = defaultScanner.nextLine().trim();
             if (username.isEmpty()) {
@@ -66,7 +67,21 @@ public class ClientApp {
                 System.out.print("Введите пароль: ");
                 password = defaultScanner.nextLine().trim();
             }
-            break;
+
+            try {
+                Request authRequest = new Request("login", new String[]{}, null, username, password);
+                Response response = client.sendAndReceive(authRequest);
+
+                if (response != null && response.isSuccess()){
+                    System.out.println(response.getMessage());
+                    isAuthentiated= true;
+                } else {
+                    System.out.println( response != null ? response.getMessage() : "Нет ответа от сервера");
+                    System.out.println("Попробуйте еще раз\n");
+                }
+            } catch (ConnectionException e){
+                System.out.println("Сервер не отвечает "+ e.getMessage());
+            }
         }
 
         clientCommands.put(ClientCommands.execute_script.name(), new ExecuteScript(client, consoleInput, username, password));

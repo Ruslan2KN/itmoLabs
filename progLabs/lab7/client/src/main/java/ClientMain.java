@@ -23,20 +23,22 @@ public class ClientMain {
      * @param args Аргументы командной строки (в данной реализации не используются).
      */
     public static void main(String[] args) {
-        String host = "localhost";
-        int port = 8080;
+        String host = null;
+        int port =0;
 
         Properties appProps = new Properties();
         System.out.println("Чтение настроек client.properties");
         try (FileInputStream fis = new FileInputStream("properties/client.properties")) {
             appProps.load(fis);
-            host = appProps.getProperty("host","localhost");
-            String portString = appProps.getProperty("port", "8080");
+            host = appProps.getProperty("host");
+            String portString = appProps.getProperty("port");
             port = Integer.parseInt(portString);
         } catch (IOException e){
-            System.out.println("Файл properties/client.properties не найдет. Будут использованы настройки по умолчанию, хост "+host+" порт "+ port);
+            System.err.println("Файл properties/client.properties не найдет");
+            System.exit(1);
         } catch (NumberFormatException e){
-            System.out.println("Ошибка, порт в файле настроек не является числом. Используется порт по умолчанию "+port);
+            System.err.println("Ошибка, порт в файле настроек не является числом");
+            System.exit(1);
         }
         System.out.println("Попытка подключения к серверу по адресу " + host + ":" + port);
 

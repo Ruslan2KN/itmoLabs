@@ -55,7 +55,7 @@ public class Server {
                     // Главный поток не блокируется, сразу отдаем чтение в Cached pool
                     readPool.submit(() -> handleRead(clientSocket));
                 } catch (SocketTimeoutException e) {
-                    // Тайм-аут вышел, новых подключений нет, переходим к следующей итерации
+                    // Тайм-аут вышел, новых подключений нет, переходим к следующей итерации, проверяя exit раз в 50мс
                 } catch (IOException e) {
                     System.out.println("Ошибка при ожидании подключения: " + e.getMessage());
                 }
@@ -95,7 +95,7 @@ public class Server {
             boolean isAuthenticated = userDAO.authenticateUser(request.getUsername(), request.getPassword());
 
             if (!isAuthenticated) {
-                response = new Response("Ошибка авторизации: неверный логин или пароль.", false, null);
+                response = new Response("Ошибка авторизации: неверный пароль.", false, null);
             } else {
                 response = commandManager.exeCommand(request);
             }

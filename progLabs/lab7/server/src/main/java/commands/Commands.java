@@ -74,5 +74,6 @@ public enum Commands {
     /**
      * Внутренняя служебная команда для проверки существования ID на сервере.
      */
-    check_id
+    check_id,
+    login
 }

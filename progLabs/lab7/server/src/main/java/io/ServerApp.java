@@ -1,6 +1,7 @@
 package io;
 
 import dao.DatabaseConnection;
+import dao.DatabaseInitializer;
 import dao.StudyGroupDAO;
 import dao.UserDAO;
 import managers.CollectionManager;
@@ -27,37 +28,42 @@ public class ServerApp {
      * запускает бесконечный цикл ожидания клиентских подключений.
      */
     public static void start() {
-        int port = 8080;
         Properties appProps = new Properties();
 
-        String dbHost = "pg";
-        int dbPort = 5432;
-        String dbName = "studs";
-        String dbUser = "";
-        String dbPass = "";
+        int port = 0;
+        String dbHost=null;
+        int dbPort=0;
+        String dbName= null;
+        String dbUser= null;
+        String dbPass= null;
 
         System.out.println("Чтение настроек server.properties");
         try (FileInputStream fis = new FileInputStream("properties/server.properties")) {
             appProps.load(fis);
 
-            String portString = appProps.getProperty("server.port", "8080");
+            String portString = appProps.getProperty("server.port");
             port = Integer.parseInt(portString);
-
-            dbHost = appProps.getProperty("db.host", "pg");
-            dbPort = Integer.parseInt(appProps.getProperty("db.port", "5432"));
-            dbName = appProps.getProperty("db.name", "studs");
-            dbUser = appProps.getProperty("db.user", "");
-            dbPass = appProps.getProperty("db.pass", "");
+            dbHost = appProps.getProperty("db.host");
+            dbPort = Integer.parseInt(appProps.getProperty("db.port" ));
+            dbName = appProps.getProperty("db.name");
+            dbUser = appProps.getProperty("db.user" );
+            dbPass = appProps.getProperty("db.pass");
 
         } catch (IOException e) {
-            System.out.println("Файл properties/server.properties не найден. Будут использованы дефолтные параметры.");
+            System.err.println("Файл properties/server.properties не найден.");
+            System.exit(1);
         } catch (NumberFormatException e) {
-            System.out.println("Ошибка парсинга числовых значений в файле настроек. Используются дефолтные параметры.");
+            System.err.println("Ошибка парсинга числовых значений в файле настроек");
+            System.exit(1);
         }
 
         System.out.println("Инициализация сервера на порту " + port);
 
         DatabaseConnection dbConnection = new DatabaseConnection(dbHost, dbPort, dbName, dbUser, dbPass);
+
+        DatabaseInitializer databaseInitializer = new DatabaseInitializer(dbConnection.getDataSource()); // Проверка (создание) таблиц
+        databaseInitializer.initialize();
+
         UserDAO userDAO = new UserDAO(dbConnection);
         StudyGroupDAO studyGroupDAO = new StudyGroupDAO(dbConnection, userDAO);
 
@@ -72,6 +78,7 @@ public class ServerApp {
         commandManager.register(new PrintFieldDescendingGroupAdmin(collectionManager));
         commandManager.register(new Show(collectionManager));
         commandManager.register(new CheckId(collectionManager));
+        commandManager.register(new Login());
 
         commandManager.register(new Add(collectionManager, studyGroupDAO));
         commandManager.register(new Clear(collectionManager, studyGroupDAO));

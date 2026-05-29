@@ -39,4 +39,8 @@ public class DatabaseConnection {
             dataSource.close();
         }
     }
+
+    public HikariDataSource getDataSource() {
+        return dataSource;
+    }
 }
