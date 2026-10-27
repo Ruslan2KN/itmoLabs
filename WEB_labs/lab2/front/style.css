@@ -1,0 +1,174 @@
+
+body{
+    font-family: Arial, sans-serif;
+    background-color: #efeff4;
+}
+
+.header {
+    font-family: cursive;
+    font-size: 16px;
+    color: #202020;
+    text-align: center;
+    padding: 25px 20px;
+    background-color: #ffffff;
+
+    border-bottom: 3px solid #3296fb;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+
+}
+
+form > div {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+}
+
+
+/* кнопка радиуса */
+.r-btn {
+    padding: 5px 15px;
+    margin-right: 5px;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    border: 1px solid #999999;
+}
+/* меняем цвет при наведение мышкой */
+.r-btn:hover{
+    background-color: #cbcbcb;
+}
+.r-btn.active {
+    background-color: #99cafa;
+}
+.r-btn.active:hover {
+    background-color: #80bdf5;
+}
+
+.header span {
+    margin: 0 15px;
+}
+
+.name{
+    font-weight: bold;
+    font-size: 1.3em;
+    color: #202020;
+    margin-right: 15px;
+}
+
+.group, .var {
+    color: #3e0d03;
+    font-size: 0.95em;
+    margin: 0 8px;
+    display: inline-block;
+}
+
+#resultsTable{
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+#resultsTable th{
+    background-color: #3399ff;
+    color: white;
+    padding: 12px;
+    text-align: left;
+    border: none;
+}
+
+#resultsTable td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #eeeeee;
+}
+#resultsTable tbody tr:last-child td{
+    border-bottom: none;
+}
+
+#resultsTable tbody tr:nth-child(even){
+    background-color: #f9f9f9;
+}
+
+#resultsTable tbody tr:hover{
+    background-color: #f1f7ff;
+}
+
+button[type="submit"] {
+    background-color: #3399ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+button[type="submit"]:hover{
+    background-color: #2477d0;
+
+}
+
+input[type="text"]{
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type = "text"]:focus{
+    border-color: #3196fa;
+    box-shadow: 0 0 5px rgba(51, 153, 255, 0.5);
+}
+
+.clear-btn{
+    background-color: white;
+    color: #fa4b4b;
+    border: 1px solid #fe4c4c;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.clear-btn:hover{
+    background-color: #fd4c4c;
+    color: white;
+}
+
+.graph-cell {
+    width: 50%;
+    text-align: center;
+}
+
+.error-message {
+    color: red ;
+    font-size: 12px;
+    margin-top: 4px;
+    display: none;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+#server-error {
+    margin-top: 10px;
+    font-weight: bold;
+}
+.main-table {
+    width: 100%;
+}
+.form-cell {
+    width: 50%;
+}

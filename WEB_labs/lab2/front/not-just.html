@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <title>Лабораторная работа</title>
+        <link rel="stylesheet" href="style.css">
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <!-- таблица для разметки всей страницы -->
+        <table class="main-table">
+
+            <tr>
+                <td colspan="2" class="header">
+                    <span class="name">Кузин Руслан Нуридинович</span>
+                    <span class="group">группа 3216</span>
+                    <span class="var">вариант 74289</span>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="graph-cell">
+                    <canvas id="graph" width="300" height="300"></canvas>
+                </td>
+                <td class="form-cell">
+                    <form id="pointForm">
+
+                        <!--Поле X-->
+                        <div>
+                            <label >Изменение X:</label>
+                            <div class="checkbox-group" id="x-checkboxes">
+                                <label><input type="checkbox" name="x_val" value="-2">-2</label>
+                                <label><input type="checkbox" name="x_val" value="-1.5">-1.5</label>
+                                <label><input type="checkbox" name="x_val" value="-1">-1</label>
+                                <label><input type="checkbox" name="x_val" value="-0.5">-0.5</label>
+                                <label><input type="checkbox" name="x_val" value="0">0</label>
+                                <label><input type="checkbox" name="x_val" value="0.5">0.5</label>
+                                <label><input type="checkbox" name="x_val" value="1">1</label>
+                                <label><input type="checkbox" name="x_val" value="1.5">1.5</label>
+                                <label><input type="checkbox" name="x_val" value="2">2</label>
+                            </div>
+                            <div id="x-error" class="error-message"></div>
+                        </div>
+                            <!--Поле Y-->
+                        <div>
+                        <label for="y_val">Изменение Y (-3 ... 5):</label>
+                            <input type="text" id="y_val" name="y_val" placeholder="Введите число от -3 до 5" maxlength="9">
+                            <div id="y-error" class="error-message"></div>
+                        </div>
+
+                        <!--Поле R-->
+                        <div>
+                            <label >Изменение R:</label>
+                            <div class="checkbox-group" id="r-checkboxes">
+                                <label><input type="checkbox" name="r_val" value="1">1</label>
+                                <label><input type="checkbox" name="r_val" value="2">2</label>
+                                <label><input type="checkbox" name="r_val" value="3">3</label>
+                                <label><input type="checkbox" name="r_val" value="4">4</label>
+                                <label><input type="checkbox" name="r_val" value="5">5</label>
+                            </div>
+                            <div id="r-error" class="error-message"></div>
+                        </div>
+                        <br>
+                        <button type="submit">Проверить точку</button>
+                        <button type="button" id="clearTableBtn" class="clear-btn">Очистить таблицу</button>
+                        <div id="server-error" class="error-message" ></div>
+                    </form>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <!-- вложенная таблица для самих данных-->
+                     <table id="resultsTable">
+                        <thead>
+                            <tr>
+                                <th>X</th>
+                                <th>Y</th>
+                                <th>R</th>
+                                <th>Результат</th>
+                                <th>Текущее время</th>
+                                <th>Время работы</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        <!--TODO-->
+                    </tbody>
+                     </table>
+                </td>
+            </tr>
+
+        </table>
+    </body>
+</html>
